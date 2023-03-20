@@ -1,27 +1,75 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".QuestionnaireFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+    <TextView
+        android:id="@+id/topicText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:text="@string/topic"
+        android:textSize="40sp" />
 
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/submit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/veryInterestedButton"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/very_interested"
+        android:layout_marginTop="70dp"
+        />
+    <Button
+        android:id="@+id/interestedButton"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/interested"
+        android:layout_marginTop="20dp"
+        />
+    <Button
+        android:id="@+id/noPreferenceButton"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/no_preference"
+        android:layout_marginTop="20dp"
+        />
+    <Button
+        android:id="@+id/disinterestedButton"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/uninterested"
+        android:layout_marginTop="20dp"
+        />
+    <Button
+        android:id="@+id/veryDisinterestedButton"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/very_uninterested"
+        android:layout_marginTop="20dp"
+        />
+    <Button
+        android:id="@+id/skipButton"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/skip"
+        android:layout_marginTop="110dp"
+        android:layout_marginStart="120dp"
+        />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

@@ -18,13 +18,14 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var viewModel: LoginViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val view = binding.root
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         binding.loginButton.setOnClickListener {
-            val action = LoginFragmentDirections.actionLoginFragmentToQuestionnaireFragment()
+            //if a first time user, go to questionnaire, otherwise will go right to home screen, add this in later once we have user info more set up
+            val action = LoginFragmentDirections.actionLoginFragmentToQuestionnaireIntroFragment()
             view.findNavController().navigate(action)
         }
         return view

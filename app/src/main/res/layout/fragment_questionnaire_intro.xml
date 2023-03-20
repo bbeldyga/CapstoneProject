@@ -1,0 +1,55 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".QuestionnaireFragment">
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:text="@string/questionnaireIntroTitle"
+        android:textAlignment="center"
+        android:textSize="40sp" />
+    <TextView
+        android:id="@+id/Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:text="@string/questionnaireIntroSummary"
+        android:textAlignment="center"
+        android:textSize="30sp" />
+
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp">
+    <Button
+        android:id="@+id/skipButton"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/skip"
+
+        />
+    <Button
+        android:id="@+id/proceedButton"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/proceed"
+        android:layout_marginStart="50dp"
+
+        />
+    </TableRow>
+
+</LinearLayout>
