@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentFeedBinding
 import com.squareup.picasso.Picasso
 import okhttp3.*
@@ -23,13 +22,13 @@ class FeedFragment : Fragment() {
 
     private var _binding: FragmentFeedBinding? = null
     private val binding get() = _binding!!
-    lateinit var viewModel: FeedViewModel
+    private lateinit var viewModel: FeedViewModel
     private lateinit var sharedPreferences: SharedPreferences //API Response Storage
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFeedBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModel = ViewModelProvider(this).get(FeedViewModel::class.java)
+        viewModel = ViewModelProvider(this)[FeedViewModel::class.java]
 
 
         //API Code

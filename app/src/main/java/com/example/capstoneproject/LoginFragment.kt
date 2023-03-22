@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentLoginBinding
 
 /**
@@ -16,18 +15,18 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    lateinit var viewModel: LoginViewModel
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
-        binding.loginButton.setOnClickListener {
+        //binding.loginButton.setOnClickListener {
             //if a first time user, go to questionnaire, otherwise will go right to home screen, add this in later once we have user info more set up
-            val action = LoginFragmentDirections.actionLoginFragmentToQuestionnaireIntroFragment()
-            view.findNavController().navigate(action)
-        }
+            //val action = LoginFragmentDirections.actionLoginFragmentToQuestionnaireIntroFragment()
+            //view.findNavController().navigate(action)
+        //}
         return view
     }
 

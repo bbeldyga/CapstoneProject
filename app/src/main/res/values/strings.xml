@@ -16,5 +16,15 @@
     <string name="topic">Topic</string>
     <string name="questionnaireIntroTitle">Welcome to News4You!</string>
     <string name="questionnaireIntroSummary">You are now encouraged to fill out a brief questionnaire so we can get an idea of your news preferences. If you would like to skip it we can generate a default feed for you.</string>
-
+    <string name="signUpIntro">Sign up to continue</string>
+    <string name="passwordHint">Type Your Password</string>
+    <string name="retypePasswordHint">Retype Your Password</string>
+    <string name="emailHint">Type Your Email</string>
+    <string name="signUp">Sign Up</string>
+    <string name="alreadySignedUp">I already have an account</string>
+    <string name="welcomeBack">Welcome back!</string>
+    <string name="signInIntro">Sign in to continue</string>
+    <string name="signIn">Sign In</string>
+    <string name="notSignedUp">I don\'t have an account</string>
+    <string name ="signOut">Sign Out</string>
 </resources>
