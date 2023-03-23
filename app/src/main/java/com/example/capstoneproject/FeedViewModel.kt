@@ -1,13 +1,8 @@
 package com.example.capstoneproject
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.CreationExtras
-import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 /**
  * Feed Screen Data and Logic
