@@ -20,7 +20,7 @@ class QuestionnaireFragment : Fragment() {
     private val action = QuestionnaireFragmentDirections.actionQuestionnaireFragmentToHomeFragment()
 
 
-    private val questionnaireData = mutableListOf("Technology", "World News", "Politics", "Sports", "Business", "Local??", "Science")
+    private val questionnaireData = mutableListOf("Technology", "General", "Entertainment", "Sports", "Business", "Health", "Science")
     private var userNewsPrefs = mutableListOf(3, 3, 3, 3, 3, 3, 3)
     private var questionnaireCount = 0
 

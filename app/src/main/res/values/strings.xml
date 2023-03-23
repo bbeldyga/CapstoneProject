@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">NewsApp</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">News4You</string>
     <string name="login">Login</string>
     <string name="submit">Submit</string>
     <string name="feed">Feed</string>
@@ -16,5 +15,4 @@
     <string name="topic">Topic</string>
     <string name="questionnaireIntroTitle">Welcome to News4You!</string>
     <string name="questionnaireIntroSummary">You are now encouraged to fill out a brief questionnaire so we can get an idea of your news preferences. If you would like to skip it we can generate a default feed for you.</string>
-
 </resources>
