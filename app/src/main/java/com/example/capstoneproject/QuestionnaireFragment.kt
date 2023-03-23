@@ -16,7 +16,7 @@ class QuestionnaireFragment : Fragment() {
 
     private var _binding: FragmentQuestionnaireBinding? = null
     private val binding get() = _binding!!
-    lateinit var viewModel: QuestionnaireViewModel
+    private lateinit var viewModel: QuestionnaireViewModel
     private val action = QuestionnaireFragmentDirections.actionQuestionnaireFragmentToHomeFragment()
 
 
@@ -27,7 +27,7 @@ class QuestionnaireFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentQuestionnaireBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModel = ViewModelProvider(this).get(QuestionnaireViewModel::class.java)
+        viewModel = ViewModelProvider(this)[QuestionnaireViewModel::class.java]
 
         showNextQuestion()
 

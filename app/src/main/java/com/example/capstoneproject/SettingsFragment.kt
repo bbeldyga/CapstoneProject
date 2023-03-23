@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentSettingsBinding
+import com.google.firebase.auth.FirebaseAuth
 
 /**
  * Settings Screen UI Interaction
@@ -16,15 +17,24 @@ class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
-    lateinit var viewModel: SettingsViewModel
+    private lateinit var viewModel: SettingsViewModel
+    private lateinit var firebaseAuth: FirebaseAuth
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
+        viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        binding.test.text= firebaseAuth.currentUser?.email.toString()
 
         binding.homeButton.setOnClickListener {
             val action = SettingsFragmentDirections.actionSettingsFragmentToHomeFragment()
+            view.findNavController().navigate(action)
+        }
+        binding.signOutButton.setOnClickListener {
+            firebaseAuth.signOut()
+            val action = SettingsFragmentDirections.actionSettingsFragmentToSignInFragment()
             view.findNavController().navigate(action)
         }
 
