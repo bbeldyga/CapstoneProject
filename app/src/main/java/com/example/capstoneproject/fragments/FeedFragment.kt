@@ -1,4 +1,4 @@
-package com.example.capstoneproject
+package com.example.capstoneproject.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.capstoneproject.interfaces.NewsAPI
 import com.example.capstoneproject.databinding.FragmentFeedBinding
+import com.example.capstoneproject.viewmodels.FeedViewModel
+import com.example.capstoneproject.viewmodels.FeedViewModelFactory
 import com.squareup.picasso.Picasso
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

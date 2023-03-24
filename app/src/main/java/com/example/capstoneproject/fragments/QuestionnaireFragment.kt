@@ -1,4 +1,4 @@
-package com.example.capstoneproject
+package com.example.capstoneproject.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentQuestionnaireBinding
+import com.example.capstoneproject.viewmodels.QuestionnaireViewModel
 
 /**
  * Questionnaire Screen UI Interaction
@@ -17,10 +18,11 @@ class QuestionnaireFragment : Fragment() {
     private var _binding: FragmentQuestionnaireBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: QuestionnaireViewModel
-    private val action = QuestionnaireFragmentDirections.actionQuestionnaireFragmentToHomeFragment()
+    private val action =
+        com.example.capstoneproject.fragments.QuestionnaireFragmentDirections.actionQuestionnaireFragmentToHomeFragment()
 
 
-    private val questionnaireData = mutableListOf("Technology", "General", "Entertainment", "Sports", "Business", "Health", "Science")
+    private val questionnaireData = mutableListOf("General", "Technology", "Entertainment", "Sports", "Business", "Health", "Science")
     private var userNewsPrefs = mutableListOf(3, 3, 3, 3, 3, 3, 3)
     private var questionnaireCount = 0
 

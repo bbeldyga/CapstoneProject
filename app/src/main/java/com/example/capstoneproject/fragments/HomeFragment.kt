@@ -1,4 +1,4 @@
-package com.example.capstoneproject
+package com.example.capstoneproject.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentHomeBinding
+import com.example.capstoneproject.viewmodels.HomeViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 /**
@@ -28,12 +29,14 @@ class HomeFragment : Fragment() {
 
 
         binding.feedButton.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToFeedFragment()
+            val action =
+                com.example.capstoneproject.fragments.HomeFragmentDirections.actionHomeFragmentToFeedFragment()
             view.findNavController().navigate(action)
         }
 
         binding.settingsButton.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToSettingsFragment()
+            val action =
+                com.example.capstoneproject.fragments.HomeFragmentDirections.actionHomeFragmentToSettingsFragment()
             view.findNavController().navigate(action)
         }
 

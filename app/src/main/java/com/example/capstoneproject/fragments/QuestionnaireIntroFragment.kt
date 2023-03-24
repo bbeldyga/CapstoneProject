@@ -1,4 +1,4 @@
-package com.example.capstoneproject
+package com.example.capstoneproject.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentQuestionnaireIntroBinding
+import com.example.capstoneproject.viewmodels.QuestionnaireIntroViewModel
 
 /**
  * Questionnaire Intro Screen UI Interaction
@@ -29,11 +30,13 @@ class QuestionnaireIntroFragment : Fragment() {
 
 
         binding.skipButton.setOnClickListener {
-            val action = QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToHomeFragment()
+            val action =
+                com.example.capstoneproject.fragments.QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToHomeFragment()
             view.findNavController().navigate(action)
         }
         binding.proceedButton.setOnClickListener{
-            val action = QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToQuestionnaireFragment()
+            val action =
+                com.example.capstoneproject.fragments.QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToQuestionnaireFragment()
             view.findNavController().navigate(action)
         }
         return view

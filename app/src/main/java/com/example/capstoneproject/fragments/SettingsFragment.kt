@@ -1,4 +1,4 @@
-package com.example.capstoneproject
+package com.example.capstoneproject.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentSettingsBinding
+import com.example.capstoneproject.viewmodels.SettingsViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 /**
@@ -29,12 +30,14 @@ class SettingsFragment : Fragment() {
         binding.test.text= firebaseAuth.currentUser?.email.toString()
 
         binding.homeButton.setOnClickListener {
-            val action = SettingsFragmentDirections.actionSettingsFragmentToHomeFragment()
+            val action =
+                com.example.capstoneproject.fragments.SettingsFragmentDirections.actionSettingsFragmentToHomeFragment()
             view.findNavController().navigate(action)
         }
         binding.signOutButton.setOnClickListener {
             firebaseAuth.signOut()
-            val action = SettingsFragmentDirections.actionSettingsFragmentToSignInFragment()
+            val action =
+                com.example.capstoneproject.fragments.SettingsFragmentDirections.actionSettingsFragmentToSignInFragment()
             view.findNavController().navigate(action)
         }
 

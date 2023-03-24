@@ -2,12 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".FeedFragment">
+    tools:context=".fragments.FeedFragment">
 
     <data>
         <variable
             name="feedViewModel"
-            type="com.example.capstoneproject.FeedViewModel"/>
+            type="com.example.capstoneproject.viewmodels.FeedViewModel"/>
     </data>
 
     <LinearLayout

@@ -1,7 +1,8 @@
-package com.example.capstoneproject
+package com.example.capstoneproject.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.capstoneproject.interfaces.NewsAPI
 
 class FeedViewModelFactory(private val newsAPI: NewsAPI): ViewModelProvider.Factory  {
     override fun <T: ViewModel> create (modelClass: Class<T>) : T {

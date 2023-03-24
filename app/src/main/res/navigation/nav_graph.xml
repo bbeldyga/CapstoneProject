@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.capstoneproject.HomeFragment"
+        android:name="com.example.capstoneproject.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
-        android:name="com.example.capstoneproject.FeedFragment"
+        android:name="com.example.capstoneproject.fragments.FeedFragment"
         android:label="fragment_feed"
         tools:layout="@layout/fragment_feed" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.capstoneproject.SettingsFragment"
+        android:name="com.example.capstoneproject.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/questionnaireFragment"
-        android:name="com.example.capstoneproject.QuestionnaireFragment"
+        android:name="com.example.capstoneproject.fragments.QuestionnaireFragment"
         android:label="fragment_questionnaire"
         tools:layout="@layout/fragment_questionnaire" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/questionnaireIntroFragment"
-        android:name="com.example.capstoneproject.QuestionnaireIntroFragment"
+        android:name="com.example.capstoneproject.fragments.QuestionnaireIntroFragment"
         android:label="QuestionnaireIntroFragment" >
         <action
             android:id="@+id/action_questionnaireIntroFragment_to_questionnaireFragment"
@@ -60,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.capstoneproject.SignUpFragment"
+        android:name="com.example.capstoneproject.fragments.SignUpFragment"
         android:label="SignUpFragment" >
         <action
             android:id="@+id/action_signUpFragment_to_signInFragment"
@@ -71,7 +71,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.capstoneproject.SignInFragment"
+        android:name="com.example.capstoneproject.fragments.SignInFragment"
         android:label="SignInFragment" >
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"

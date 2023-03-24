@@ -1,5 +1,6 @@
-package com.example.capstoneproject
+package com.example.capstoneproject.interfaces
 
+import com.example.capstoneproject.dataobjects.NewsResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.Response

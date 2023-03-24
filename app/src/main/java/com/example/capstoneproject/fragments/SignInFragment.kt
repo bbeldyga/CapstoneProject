@@ -1,4 +1,4 @@
-package com.example.capstoneproject
+package com.example.capstoneproject.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentSignInBinding
+import com.example.capstoneproject.viewmodels.SignInViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
@@ -32,17 +33,23 @@ class SignInFragment : Fragment() {
 
 
         binding.notRegisteredText.setOnClickListener {
-            val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
+            val action =
+                SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
             view.findNavController().navigate(action)
         }
         binding.signInButton.setOnClickListener{
+            val action = //REMOVE THIS
+                SignInFragmentDirections.actionSignInFragmentToHomeFragment() //THIS
+            view.findNavController().navigate(action) //AND THIS
+
             val email = binding.emailInput.text.toString()
             val pass = binding.passInput.text.toString()
 
             if(email.isNotEmpty() && pass.isNotEmpty()) {
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
+                        val action =
+                            SignInFragmentDirections.actionSignInFragmentToHomeFragment()
                         view.findNavController().navigate(action)
                     }
                     else {
@@ -67,7 +74,8 @@ class SignInFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if(firebaseAuth.currentUser != null){
-            val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
+            val action =
+                com.example.capstoneproject.fragments.SignInFragmentDirections.actionSignInFragmentToHomeFragment()
             view?.findNavController()?.navigate(action)
         }
     }

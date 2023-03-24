@@ -1,4 +1,4 @@
-package com.example.capstoneproject
+package com.example.capstoneproject.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentSignUpBinding
+import com.example.capstoneproject.viewmodels.SignUpViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.material.snackbar.Snackbar
 
@@ -32,7 +33,8 @@ class SignUpFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         
         binding.alreadyRegisteredText.setOnClickListener {
-            val action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
+            val action =
+                com.example.capstoneproject.fragments.SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
             view.findNavController().navigate(action)
         }
         binding.signUpButton.setOnClickListener{
@@ -44,7 +46,8 @@ class SignUpFragment : Fragment() {
                 if(pass == retypePass) {
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            val action = SignUpFragmentDirections.actionSignUpFragmentToQuestionnaireIntroFragment()
+                            val action =
+                                com.example.capstoneproject.fragments.SignUpFragmentDirections.actionSignUpFragmentToQuestionnaireIntroFragment()
                             view.findNavController().navigate(action)
                         }
                         else {

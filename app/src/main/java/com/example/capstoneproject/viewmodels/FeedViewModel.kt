@@ -1,6 +1,8 @@
-package com.example.capstoneproject
+package com.example.capstoneproject.viewmodels
 import android.util.Log
 import androidx.lifecycle.*
+import com.example.capstoneproject.interfaces.NewsAPI
+import com.example.capstoneproject.dataobjects.NewsResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
