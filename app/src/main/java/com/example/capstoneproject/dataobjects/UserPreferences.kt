@@ -4,10 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "userPreferenceTable")
+@Entity(tableName = "userPreferenceTable")  //Will have to update version number after this changes
 data class UserPreferences (
     @PrimaryKey
-    val userId: Long = 0L,
+    val email: String = "",          //should be email or id from firebase
     @ColumnInfo(name = "General")
     val generalPreference: Int = 3,
     @ColumnInfo(name = "Technology")

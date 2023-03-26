@@ -7,14 +7,14 @@ import com.example.capstoneproject.dataobjects.UserPreferences
 @Dao
 interface UserPreferencesDAO {
     @Insert
-    fun insert(userPreferences: UserPreferences)
+    suspend fun insert(userPreferences: UserPreferences)
 
     @Update
-    fun update(userPreferences: UserPreferences)
+    suspend fun update(userPreferences: UserPreferences)
 
     @Delete
-    fun delete(userPreferences: UserPreferences)
+    suspend fun delete(userPreferences: UserPreferences)
 
-    @Query("SELECT * FROM userPreferenceTable WHERE userId = :userId")
-    fun get(userId: Long): LiveData<UserPreferences>
+    @Query("SELECT * FROM userPreferenceTable WHERE email = :email")
+    fun get(email: String): LiveData<UserPreferences>
 }

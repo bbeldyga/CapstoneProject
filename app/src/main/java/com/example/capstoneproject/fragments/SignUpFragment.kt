@@ -22,9 +22,6 @@ class SignUpFragment : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var viewModel: SignUpViewModel
 
-
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -33,10 +30,10 @@ class SignUpFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         
         binding.alreadyRegisteredText.setOnClickListener {
-            val action =
-                com.example.capstoneproject.fragments.SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
+            val action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
             view.findNavController().navigate(action)
         }
+
         binding.signUpButton.setOnClickListener{
             val email = binding.emailInput.text.toString()
             val pass = binding.passInput.text.toString()
@@ -46,8 +43,7 @@ class SignUpFragment : Fragment() {
                 if(pass == retypePass) {
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            val action =
-                                com.example.capstoneproject.fragments.SignUpFragmentDirections.actionSignUpFragmentToQuestionnaireIntroFragment()
+                            val action = SignUpFragmentDirections.actionSignUpFragmentToQuestionnaireIntroFragment()
                             view.findNavController().navigate(action)
                         }
                         else {
@@ -66,14 +62,10 @@ class SignUpFragment : Fragment() {
                 val snack = Snackbar.make(it, "Empty fields are not allowed", Snackbar.LENGTH_SHORT)
                 snack.show()
             }
-
-
-
-
         }
+
         return view
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

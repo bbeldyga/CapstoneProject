@@ -19,29 +19,21 @@ class QuestionnaireIntroFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: QuestionnaireIntroViewModel
 
-
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentQuestionnaireIntroBinding.inflate(inflater, container, false)
         val view = binding.root
         viewModel = ViewModelProvider(this)[QuestionnaireIntroViewModel::class.java]
 
-
-
         binding.skipButton.setOnClickListener {
-            val action =
-                com.example.capstoneproject.fragments.QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToHomeFragment()
+            val action = QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToHomeFragment()
             view.findNavController().navigate(action)
         }
         binding.proceedButton.setOnClickListener{
-            val action =
-                com.example.capstoneproject.fragments.QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToQuestionnaireFragment()
+            val action = QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToQuestionnaireFragment()
             view.findNavController().navigate(action)
         }
         return view
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

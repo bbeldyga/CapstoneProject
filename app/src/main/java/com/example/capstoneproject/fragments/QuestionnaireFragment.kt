@@ -18,10 +18,8 @@ class QuestionnaireFragment : Fragment() {
     private var _binding: FragmentQuestionnaireBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: QuestionnaireViewModel
-    private val action =
-        com.example.capstoneproject.fragments.QuestionnaireFragmentDirections.actionQuestionnaireFragmentToHomeFragment()
 
-
+    private val action = QuestionnaireFragmentDirections.actionQuestionnaireFragmentToHomeFragment()
     private val questionnaireData = mutableListOf("General", "Technology", "Entertainment", "Sports", "Business", "Health", "Science")
     private var userNewsPrefs = mutableListOf(3, 3, 3, 3, 3, 3, 3)
     private var questionnaireCount = 0

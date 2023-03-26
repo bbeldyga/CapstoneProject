@@ -29,14 +29,12 @@ class HomeFragment : Fragment() {
 
 
         binding.feedButton.setOnClickListener {
-            val action =
-                com.example.capstoneproject.fragments.HomeFragmentDirections.actionHomeFragmentToFeedFragment()
+            val action = HomeFragmentDirections.actionHomeFragmentToFeedFragment()
             view.findNavController().navigate(action)
         }
 
         binding.settingsButton.setOnClickListener {
-            val action =
-                com.example.capstoneproject.fragments.HomeFragmentDirections.actionHomeFragmentToSettingsFragment()
+            val action = HomeFragmentDirections.actionHomeFragmentToSettingsFragment()
             view.findNavController().navigate(action)
         }
 

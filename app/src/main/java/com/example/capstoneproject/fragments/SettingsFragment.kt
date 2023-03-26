@@ -30,14 +30,12 @@ class SettingsFragment : Fragment() {
         binding.test.text= firebaseAuth.currentUser?.email.toString()
 
         binding.homeButton.setOnClickListener {
-            val action =
-                com.example.capstoneproject.fragments.SettingsFragmentDirections.actionSettingsFragmentToHomeFragment()
+            val action = SettingsFragmentDirections.actionSettingsFragmentToHomeFragment()
             view.findNavController().navigate(action)
         }
         binding.signOutButton.setOnClickListener {
             firebaseAuth.signOut()
-            val action =
-                com.example.capstoneproject.fragments.SettingsFragmentDirections.actionSettingsFragmentToSignInFragment()
+            val action = SettingsFragmentDirections.actionSettingsFragmentToSignInFragment()
             view.findNavController().navigate(action)
         }
 

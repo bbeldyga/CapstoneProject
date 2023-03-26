@@ -22,8 +22,6 @@ class SignInFragment : Fragment() {
     private lateinit var viewModel: SignInViewModel
     private lateinit var firebaseAuth: FirebaseAuth
 
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSignInBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -31,12 +29,12 @@ class SignInFragment : Fragment() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-
         binding.notRegisteredText.setOnClickListener {
             val action =
                 SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
             view.findNavController().navigate(action)
         }
+
         binding.signInButton.setOnClickListener{
             val action = //REMOVE THIS
                 SignInFragmentDirections.actionSignInFragmentToHomeFragment() //THIS
@@ -48,34 +46,27 @@ class SignInFragment : Fragment() {
             if(email.isNotEmpty() && pass.isNotEmpty()) {
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        val action =
-                            SignInFragmentDirections.actionSignInFragmentToHomeFragment()
+                        val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
                         view.findNavController().navigate(action)
                     }
                     else {
                         val snack = Snackbar.make(view, it.exception.toString(), Snackbar.LENGTH_SHORT)
                         snack.show()
                     }
-                    }
-            }
-            else {
+                }
+            } else {
                 val snack = Snackbar.make(it, "Empty fields are not allowed", Snackbar.LENGTH_SHORT)
                 snack.show()
             }
-
-
-
-
         }
+
         return view
     }
-
 
     override fun onStart() {
         super.onStart()
         if(firebaseAuth.currentUser != null){
-            val action =
-                com.example.capstoneproject.fragments.SignInFragmentDirections.actionSignInFragmentToHomeFragment()
+            val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
             view?.findNavController()?.navigate(action)
         }
     }

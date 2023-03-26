@@ -41,8 +41,6 @@ class FeedFragment : Fragment() {
         binding.feedViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        //viewModel.connectToAPI("us", "technology", "5e9f7c5f70c441378877ab85830ecdc2")
-
         viewModel.imageValue.observe(viewLifecycleOwner, Observer<String> { imageValue ->
             if (imageValue != "") {
                 Picasso.get().load(imageValue).into(binding.newsImage)
@@ -56,36 +54,8 @@ class FeedFragment : Fragment() {
         return view
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
-
-//        var newsResponse = NewsResponse()
-//
-//        val service: NewsAPI
-//        val call: Call<NewsResponse> = newsAPI.getArticles("us", "technology", "5e9f7c5f70c441378877ab85830ecdc2")
-//        call.enqueue(object : Callback<NewsResponse> {
-//            override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
-//                if (response.isSuccessful) {
-//                    newsResponse = response.body()!!
-//                } else {
-//                    // Handle the error
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-//                // Handle the error
-//            }
-//        })
-//        viewModel.updateText()
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel.updateText()
-//            }
-//        }
