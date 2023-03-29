@@ -6,7 +6,7 @@ import com.example.capstoneproject.dataobjects.UserPreferences
 
 @Dao
 interface UserPreferencesDAO {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(userPreferences: UserPreferences)
 
     @Update
@@ -16,5 +16,5 @@ interface UserPreferencesDAO {
     suspend fun delete(userPreferences: UserPreferences)
 
     @Query("SELECT * FROM userPreferenceTable WHERE email = :email")
-    fun get(email: String): LiveData<UserPreferences>
+    suspend fun get(email: String): UserPreferences
 }

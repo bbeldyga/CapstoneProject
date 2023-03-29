@@ -3,29 +3,42 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.capstoneproject.interfaces.NewsAPI
 import com.example.capstoneproject.dataobjects.NewsResponse
+import com.example.capstoneproject.interfaces.UserPreferencesDAO
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.*
 import kotlin.random.Random
 
 /**
  * Feed Screen Data and Logic
  */
-class FeedViewModel(private val newsAPI: NewsAPI): ViewModel() {
+class FeedViewModel(private val newsAPI: NewsAPI,
+                    private val userPreferencesDAO: UserPreferencesDAO,
+                    private val firebaseAuth: FirebaseAuth): ViewModel() {
 
     private var count = 0
+    private val email = firebaseAuth.currentUser?.email
+    private val userPreferences = mutableListOf(3, 3, 3, 3, 3, 3, 3)
+
     private val feedSource = MutableList(7) {NewsResponse()}
     private val apiKeys = List(1) {"5e9f7c5f70c441378877ab85830ecdc2"}
-    private var _textValue = MutableLiveData<String>("Loading your feed...")
-    val textValue: LiveData<String>
-        get() = _textValue
+
+    private var _descriptionValue = MutableLiveData<String>("Loading your feed...")
+    val descriptionValue: LiveData<String>
+        get() = _descriptionValue
     private var _imageValue = MutableLiveData<String>("")
     val imageValue: LiveData<String>
         get() = _imageValue
+    private var _titleValue = MutableLiveData<String>("")
+    val titleValue: LiveData<String>
+        get() = _titleValue
 
     init {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch {
             withTimeout(5000) {
                 getNews(apiKeys[0])
             }
+
+            retrieveUserPreferences(email!!)
 
             withContext(Dispatchers.Main) {
                 updateUI()
@@ -35,11 +48,13 @@ class FeedViewModel(private val newsAPI: NewsAPI): ViewModel() {
 
     fun updateUI() {
         val index = Random.nextInt(0, 6)
-        if (feedSource[index].articles[count].urlToImage != null &&
+        if (feedSource[index].articles[count].title != null &&
+            feedSource[index].articles[count].urlToImage != null &&
             feedSource[index].articles[count].description != null
         ) {
+            _titleValue.value = feedSource[index].articles[count].title!!
             _imageValue.value = feedSource[index].articles[count].urlToImage!!
-            _textValue.value = feedSource[index].articles[count++].description!!
+            _descriptionValue.value = feedSource[index].articles[count++].description!!
             return
         } else {
             count++
@@ -89,13 +104,29 @@ class FeedViewModel(private val newsAPI: NewsAPI): ViewModel() {
         return NewsResponse()
     }
 
+    private fun retrieveUserPreferences(email: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val currentUserPreferences = userPreferencesDAO.get(email)
+
+            userPreferences[0] = currentUserPreferences.generalPreference
+            userPreferences[1] = currentUserPreferences.technologyPreference
+            userPreferences[2] = currentUserPreferences.entertainmentPreference
+            userPreferences[3] = currentUserPreferences.sportsPreference
+            userPreferences[4] = currentUserPreferences.businessPreference
+            userPreferences[5] = currentUserPreferences.healthPreference
+            userPreferences[6] = currentUserPreferences.sciencePreference
+        }
+    }
+
     companion object {
         fun provideFactory(
             newsAPI: NewsAPI,
+            userPreferencesDAO: UserPreferencesDAO,
+            firebaseAuth: FirebaseAuth
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return FeedViewModel(newsAPI) as T
+                return FeedViewModel(newsAPI, userPreferencesDAO, firebaseAuth) as T
             }
         }
     }

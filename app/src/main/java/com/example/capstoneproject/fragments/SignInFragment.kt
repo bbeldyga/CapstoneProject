@@ -36,9 +36,9 @@ class SignInFragment : Fragment() {
         }
 
         binding.signInButton.setOnClickListener{
-            val action = //REMOVE THIS
-                SignInFragmentDirections.actionSignInFragmentToHomeFragment() //THIS
-            view.findNavController().navigate(action) //AND THIS
+//            val action = //REMOVE THIS
+//                SignInFragmentDirections.actionSignInFragmentToHomeFragment() //THIS
+//            view.findNavController().navigate(action) //AND THIS
 
             val email = binding.emailInput.text.toString()
             val pass = binding.passInput.text.toString()

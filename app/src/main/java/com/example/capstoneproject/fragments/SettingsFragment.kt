@@ -33,6 +33,12 @@ class SettingsFragment : Fragment() {
             val action = SettingsFragmentDirections.actionSettingsFragmentToHomeFragment()
             view.findNavController().navigate(action)
         }
+
+        binding.questionnaireButton.setOnClickListener {
+            val action = SettingsFragmentDirections.actionSettingsFragmentToQuestionnaireIntroFragment()
+            view.findNavController().navigate(action)
+        }
+
         binding.signOutButton.setOnClickListener {
             firebaseAuth.signOut()
             val action = SettingsFragmentDirections.actionSettingsFragmentToSignInFragment()

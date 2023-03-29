@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.capstoneproject.News4You
 import com.example.capstoneproject.databinding.FragmentQuestionnaireBinding
+import com.example.capstoneproject.dataobjects.AppContainer
 import com.example.capstoneproject.viewmodels.QuestionnaireViewModel
 
 /**
@@ -18,6 +20,8 @@ class QuestionnaireFragment : Fragment() {
     private var _binding: FragmentQuestionnaireBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: QuestionnaireViewModel
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var appContainer: AppContainer
 
     private val action = QuestionnaireFragmentDirections.actionQuestionnaireFragmentToHomeFragment()
     private val questionnaireData = mutableListOf("General", "Technology", "Entertainment", "Sports", "Business", "Health", "Science")
@@ -27,69 +31,74 @@ class QuestionnaireFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentQuestionnaireBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModel = ViewModelProvider(this)[QuestionnaireViewModel::class.java]
 
-        showNextQuestion()
+        appContainer = (requireContext().applicationContext as News4You).appContainer
+        viewModelFactory = QuestionnaireViewModel.provideFactory(appContainer.userPreferencesDAO,
+                                                        appContainer.firebaseAuth)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(QuestionnaireViewModel::class.java)
+
+        binding.topicText.text = questionnaireData[questionnaireCount]
 
         binding.veryDisinterestedButton.setOnClickListener{
             if (questionnaireCount < 7) {
-                userNewsPrefs[questionnaireCount] = 1
+                userNewsPrefs[questionnaireCount++] = 1
                 showNextQuestion()
-            }
-            else {
+            } else {
+                viewModel.saveResults(userNewsPrefs)
                 view.findNavController().navigate(action)
             }
-
         }
+
         binding.disinterestedButton.setOnClickListener{
             if (questionnaireCount < 7) {
-                userNewsPrefs[questionnaireCount] = 2
+                userNewsPrefs[questionnaireCount++] = 2
                 showNextQuestion()
-            }
-            else {
+            } else {
+                viewModel.saveResults(userNewsPrefs)
                 view.findNavController().navigate(action)
             }
         }
+
         binding.noPreferenceButton.setOnClickListener{
             if (questionnaireCount < 7) {
-                userNewsPrefs[questionnaireCount] = 3
+                userNewsPrefs[questionnaireCount++] = 3
                 showNextQuestion()
-            }
-            else {
+            } else {
+                viewModel.saveResults(userNewsPrefs)
                 view.findNavController().navigate(action)
             }
         }
+
         binding.interestedButton.setOnClickListener{
             if (questionnaireCount < 7) {
-                userNewsPrefs[questionnaireCount] = 4
+                userNewsPrefs[questionnaireCount++] = 4
                 showNextQuestion()
-            }
-            else {
+            } else {
+                viewModel.saveResults(userNewsPrefs)
                 view.findNavController().navigate(action)
             }
         }
+
         binding.veryInterestedButton.setOnClickListener{
             if (questionnaireCount < 7) {
-                userNewsPrefs[questionnaireCount] = 5
+                userNewsPrefs[questionnaireCount++] = 5
                 showNextQuestion()
-            }
-            else {
+            } else {
+                viewModel.saveResults(userNewsPrefs)
                 view.findNavController().navigate(action)
             }
         }
 
-
         binding.skipButton.setOnClickListener {
-
             view.findNavController().navigate(action)
         }
+
         return view
     }
 
     private fun showNextQuestion() {
-        binding.topicText.text = questionnaireData[questionnaireCount]
-        if (questionnaireCount !=7) {
-            questionnaireCount++
+        if (questionnaireCount != 7) {
+            binding.topicText.text = questionnaireData[questionnaireCount]
         }
     }
 

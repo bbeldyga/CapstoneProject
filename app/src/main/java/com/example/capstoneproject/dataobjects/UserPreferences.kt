@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "userPreferenceTable")  //Will have to update version number after this changes
 data class UserPreferences (
     @PrimaryKey
-    val email: String = "",          //should be email or id from firebase
+    val email: String = "",
     @ColumnInfo(name = "General")
     val generalPreference: Int = 3,
     @ColumnInfo(name = "Technology")
