@@ -23,14 +23,13 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     private val apiKeys = List(1) {"5e9f7c5f70c441378877ab85830ecdc2"}
 
     private var _descriptionValue = MutableLiveData<String>("Loading your feed...")
-    val descriptionValue: LiveData<String>
-        get() = _descriptionValue
-    private var _imageValue = MutableLiveData<String>("")
-    val imageValue: LiveData<String>
-        get() = _imageValue
-    private var _titleValue = MutableLiveData<String>("")
-    val titleValue: LiveData<String>
-        get() = _titleValue
+    val descriptionValue: LiveData<String> get() = _descriptionValue
+    private var _imageValue = MutableLiveData<String>()
+    val imageValue: LiveData<String> get() = _imageValue
+    private var _titleValue = MutableLiveData<String>()
+    val titleValue: LiveData<String> get() = _titleValue
+    private var _urlValue = MutableLiveData<String>()
+    val urlValue: LiveData<String> get() = _urlValue
 
     init {
         viewModelScope.launch {
@@ -48,10 +47,11 @@ class FeedViewModel(private val newsAPI: NewsAPI,
 
     fun updateUI() {
         val index = Random.nextInt(0, 6)
-        if (feedSource[index].articles[count].title != null &&
+        if (feedSource[index].articles[count].url != null &&
+            feedSource[index].articles[count].title != null &&
             feedSource[index].articles[count].urlToImage != null &&
-            feedSource[index].articles[count].description != null
-        ) {
+            feedSource[index].articles[count].description != null) {
+            _urlValue.value = feedSource[index].articles[count].url!!
             _titleValue.value = feedSource[index].articles[count].title!!
             _imageValue.value = feedSource[index].articles[count].urlToImage!!
             _descriptionValue.value = feedSource[index].articles[count++].description!!
@@ -131,17 +131,3 @@ class FeedViewModel(private val newsAPI: NewsAPI,
         }
     }
 }
-
-
-//            withTimeout(5000){
-//                feedSource += connectToAPI("us", "general","5e9f7c5f70c441378877ab85830ecdc2")
-//                feedSource += connectToAPI("us", "technology","5e9f7c5f70c441378877ab85830ecdc2")
-//                feedSource += connectToAPI("us", "entertainment","5e9f7c5f70c441378877ab85830ecdc2")
-//                feedSource += connectToAPI("us", "sports","5e9f7c5f70c441378877ab85830ecdc2")
-//                feedSource += connectToAPI("us", "business","5e9f7c5f70c441378877ab85830ecdc2")
-//                feedSource += connectToAPI("us", "health","5e9f7c5f70c441378877ab85830ecdc2")
-//                feedSource += connectToAPI("us", "science","5e9f7c5f70c441378877ab85830ecdc2")
-//            }
-
-
-

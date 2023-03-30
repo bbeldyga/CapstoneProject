@@ -1,5 +1,7 @@
 package com.example.capstoneproject.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -43,7 +45,17 @@ class FeedFragment : Fragment() {
             }
         })
 
-        binding.homeButton.setOnClickListener{
+        viewModel.urlValue.observe(viewLifecycleOwner, Observer<String> { urlValue ->
+            if (urlValue != "") {
+                binding.exploreButton.setOnClickListener {
+                    val webpage = Uri.parse(urlValue)
+                    val intent = Intent(Intent.ACTION_VIEW, webpage)
+                    startActivity(intent)
+                }
+            }
+        })
+
+        binding.nextButton.setOnClickListener{
             viewModel.updateUI()
         }
 
