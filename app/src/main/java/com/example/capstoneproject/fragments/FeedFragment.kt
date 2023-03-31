@@ -14,6 +14,7 @@ import com.example.capstoneproject.News4You
 import com.example.capstoneproject.databinding.FragmentFeedBinding
 import com.example.capstoneproject.dataobjects.AppContainer
 import com.example.capstoneproject.viewmodels.FeedViewModel
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Feed Screen
@@ -55,9 +56,12 @@ class FeedFragment : Fragment() {
             }
         })
 
-        binding.nextButton.setOnClickListener{
-            viewModel.updateUI()
-        }
+        viewModel.articleCount.observe(viewLifecycleOwner, Observer<Int> { articleCount ->
+          if (articleCount == 40) {
+              val snack = Snackbar.make(view, "That's All The News For Today!", Snackbar.LENGTH_LONG)
+              snack.show()
+          }
+        })
 
         return view
     }

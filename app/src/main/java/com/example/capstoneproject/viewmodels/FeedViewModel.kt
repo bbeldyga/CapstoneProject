@@ -13,14 +13,14 @@ import kotlin.random.Random
  */
 class FeedViewModel(private val newsAPI: NewsAPI,
                     private val userPreferencesDAO: UserPreferencesDAO,
-                    private val firebaseAuth: FirebaseAuth): ViewModel() {
+                    firebaseAuth: FirebaseAuth): ViewModel() {
 
-    private var count = 0
     private val email = firebaseAuth.currentUser?.email
     private val userPreferences = mutableListOf(3, 3, 3, 3, 3, 3, 3)
+    private val articleIndexCount = mutableListOf(0, 0, 0, 0, 0, 0, 0)
 
     private val feedSource = MutableList(7) {NewsResponse()}
-    private val apiKeys = List(1) {"5e9f7c5f70c441378877ab85830ecdc2"}
+    private val apiKeys = mutableListOf("5e9f7c5f70c441378877ab85830ecdc2")
 
     private var _descriptionValue = MutableLiveData<String>("Loading your feed...")
     val descriptionValue: LiveData<String> get() = _descriptionValue
@@ -30,6 +30,8 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     val titleValue: LiveData<String> get() = _titleValue
     private var _urlValue = MutableLiveData<String>()
     val urlValue: LiveData<String> get() = _urlValue
+    private var _articleCount = MutableLiveData(0)
+    val articleCount: LiveData<Int> get() = _articleCount
 
     init {
         viewModelScope.launch {
@@ -47,17 +49,25 @@ class FeedViewModel(private val newsAPI: NewsAPI,
 
     fun updateUI() {
         val index = Random.nextInt(0, 6)
-        if (feedSource[index].articles[count].url != null &&
-            feedSource[index].articles[count].title != null &&
-            feedSource[index].articles[count].urlToImage != null &&
-            feedSource[index].articles[count].description != null) {
-            _urlValue.value = feedSource[index].articles[count].url!!
-            _titleValue.value = feedSource[index].articles[count].title!!
-            _imageValue.value = feedSource[index].articles[count].urlToImage!!
-            _descriptionValue.value = feedSource[index].articles[count++].description!!
+
+        if (articleCount.value == 40) {
             return
+        } else if (feedSource[index].articles[articleIndexCount[index]].url != null &&
+            feedSource[index].articles[articleIndexCount[index]].title != null &&
+            feedSource[index].articles[articleIndexCount[index]].urlToImage != null &&
+            feedSource[index].articles[articleIndexCount[index]].description != null &&
+            articleIndexCount[index] < 20) {
+            _urlValue.value = feedSource[index].articles[articleIndexCount[index]].url!!
+            _titleValue.value = feedSource[index].articles[articleIndexCount[index]].title!!
+            _imageValue.value = feedSource[index].articles[articleIndexCount[index]].urlToImage!!
+            _descriptionValue.value = feedSource[index].articles[articleIndexCount[index]++].description!!
+            _articleCount.value = _articleCount.value?.plus(1)
+            return
+        } else if (articleIndexCount[index] == 20){
+            updateUI()
         } else {
-            count++
+            articleIndexCount[index]++
+            _articleCount.value = _articleCount.value?.plus(1)
             updateUI()
         }
     }
@@ -108,13 +118,15 @@ class FeedViewModel(private val newsAPI: NewsAPI,
         viewModelScope.launch(Dispatchers.IO) {
             val currentUserPreferences = userPreferencesDAO.get(email)
 
-            userPreferences[0] = currentUserPreferences.generalPreference
-            userPreferences[1] = currentUserPreferences.technologyPreference
-            userPreferences[2] = currentUserPreferences.entertainmentPreference
-            userPreferences[3] = currentUserPreferences.sportsPreference
-            userPreferences[4] = currentUserPreferences.businessPreference
-            userPreferences[5] = currentUserPreferences.healthPreference
-            userPreferences[6] = currentUserPreferences.sciencePreference
+            if (currentUserPreferences != null) {
+                userPreferences[0] = currentUserPreferences.generalPreference
+                userPreferences[1] = currentUserPreferences.technologyPreference
+                userPreferences[2] = currentUserPreferences.entertainmentPreference
+                userPreferences[3] = currentUserPreferences.sportsPreference
+                userPreferences[4] = currentUserPreferences.businessPreference
+                userPreferences[5] = currentUserPreferences.healthPreference
+                userPreferences[6] = currentUserPreferences.sciencePreference
+            }
         }
     }
 

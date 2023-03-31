@@ -7,19 +7,19 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "userPreferenceTable")  //Will have to update version number after this changes
 data class UserPreferences (
     @PrimaryKey
-    val email: String = "",
+    val email: String,
     @ColumnInfo(name = "General")
-    val generalPreference: Int = 3,
+    val generalPreference: Int,
     @ColumnInfo(name = "Technology")
-    val technologyPreference: Int = 3,
+    val technologyPreference: Int,
     @ColumnInfo(name = "Entertainment")
-    val entertainmentPreference: Int = 3,
+    val entertainmentPreference: Int,
     @ColumnInfo(name = "Sports")
-    val sportsPreference: Int = 3,
+    val sportsPreference: Int,
     @ColumnInfo(name = "Business")
-    val businessPreference: Int = 3,
+    val businessPreference: Int,
     @ColumnInfo(name = "Health")
-    val healthPreference: Int = 3,
+    val healthPreference: Int,
     @ColumnInfo(name = "Science")
-    val sciencePreference: Int = 3
+    val sciencePreference: Int
 )
