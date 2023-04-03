@@ -33,9 +33,8 @@ class FeedFragment : Fragment() {
 
         appContainer = (requireContext().applicationContext as News4You).appContainer
         viewModelFactory = FeedViewModel.provideFactory(appContainer.newsAPI,
-                                                        appContainer.userPreferencesDAO,
-                                                        appContainer.firebaseAuth)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(FeedViewModel::class.java)
+                                                        appContainer.userPreferencesDAO)
+        viewModel = ViewModelProvider(this, viewModelFactory)[FeedViewModel::class.java]
 
         binding.feedViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

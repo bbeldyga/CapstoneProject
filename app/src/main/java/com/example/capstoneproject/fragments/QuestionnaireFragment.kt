@@ -33,9 +33,8 @@ class QuestionnaireFragment : Fragment() {
         val view = binding.root
 
         appContainer = (requireContext().applicationContext as News4You).appContainer
-        viewModelFactory = QuestionnaireViewModel.provideFactory(appContainer.userPreferencesDAO,
-                                                        appContainer.firebaseAuth)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(QuestionnaireViewModel::class.java)
+        viewModelFactory = QuestionnaireViewModel.provideFactory(appContainer.userPreferencesDAO)
+        viewModel = ViewModelProvider(this, viewModelFactory)[QuestionnaireViewModel::class.java]
 
         binding.topicText.text = questionnaireData[questionnaireCount]
 

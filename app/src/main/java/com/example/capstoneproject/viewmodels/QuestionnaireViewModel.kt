@@ -12,10 +12,10 @@ import kotlinx.coroutines.launch
 /**
  * Questionnaire Screen Data and Logic
  */
-class QuestionnaireViewModel(private val userPreferencesDAO: UserPreferencesDAO,
-                             private val firebaseAuth: FirebaseAuth): ViewModel() {
+class QuestionnaireViewModel(private val userPreferencesDAO: UserPreferencesDAO)
+    : ViewModel() {
 
-    private val email = firebaseAuth.currentUser?.email
+    private val email = FirebaseAuth.getInstance().currentUser?.email
 
     fun saveResults(userNewsPrefs: MutableList<Int>) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -29,12 +29,11 @@ class QuestionnaireViewModel(private val userPreferencesDAO: UserPreferencesDAO,
 
     companion object {
         fun provideFactory(
-            userPreferencesDAO: UserPreferencesDAO,
-            firebaseAuth: FirebaseAuth
+            userPreferencesDAO: UserPreferencesDAO
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return QuestionnaireViewModel(userPreferencesDAO, firebaseAuth) as T
+                return QuestionnaireViewModel(userPreferencesDAO) as T
             }
         }
     }

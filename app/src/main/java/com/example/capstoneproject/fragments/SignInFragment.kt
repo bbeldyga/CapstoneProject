@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentSignInBinding
@@ -20,55 +21,69 @@ class SignInFragment : Fragment() {
     private var _binding: FragmentSignInBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SignInViewModel
-    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSignInBinding.inflate(inflater, container, false)
         val view = binding.root
+
         viewModel = ViewModelProvider(this)[SignInViewModel::class.java]
 
-        firebaseAuth = FirebaseAuth.getInstance()
+        binding.signInViewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.notRegisteredText.setOnClickListener {
-            val action =
-                SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
-            view.findNavController().navigate(action)
-        }
+        viewModel.notRegistered.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
+                view.findNavController().navigate(action)
+            }
+        })
 
-        binding.signInButton.setOnClickListener{
-//            val action = //REMOVE THIS
-//                SignInFragmentDirections.actionSignInFragmentToHomeFragment() //THIS
-//            view.findNavController().navigate(action) //AND THIS
+//        viewModel.signInAttempt.observe(viewLifecycleOwner, Observer<Boolean> {
+//            if (it) {
+//                val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
+//                view.findNavController().navigate(action)
+//            }
+//        })
 
-            val email = binding.emailInput.text.toString()
-            val pass = binding.passInput.text.toString()
-
-            if(email.isNotEmpty() && pass.isNotEmpty()) {
-                firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
-                        view.findNavController().navigate(action)
-                    }
-                    else {
-                        val snack = Snackbar.make(view, it.exception.toString(), Snackbar.LENGTH_SHORT)
-                        snack.show()
-                    }
-                }
-            } else {
-                val snack = Snackbar.make(it, "Empty fields are not allowed", Snackbar.LENGTH_SHORT)
+        viewModel.signInInvalid.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val snack = Snackbar.make(view, "Sign In Failed", Snackbar.LENGTH_SHORT)
                 snack.show()
             }
-        }
+        })
+
+        viewModel.emptyFields.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val snack = Snackbar.make(view, "Empty fields are not allowed", Snackbar.LENGTH_SHORT)
+                snack.show()
+            }
+        })
+
+        viewModel.signInAttempt.observe(viewLifecycleOwner, Observer<Boolean> { result ->
+            if (result) {
+                FirebaseAuth.getInstance()
+                    .signInWithEmailAndPassword(viewModel.email, viewModel.password)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
+                            view.findNavController().navigate(action)
+                        } else {
+                            val snack = Snackbar.make(view, it.exception.toString(), Snackbar.LENGTH_SHORT)
+                            snack.show()
+                        }
+                    }
+            }
+        })
 
         return view
     }
 
     override fun onStart() {
-        super.onStart()
-        if(firebaseAuth.currentUser != null){
-            val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
-            view?.findNavController()?.navigate(action)
-        }
+            super.onStart()
+            if(viewModel.getCurrentUserValid()){
+                val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
+                view?.findNavController()?.navigate(action)
+            }
     }
 
     override fun onDestroyView() {

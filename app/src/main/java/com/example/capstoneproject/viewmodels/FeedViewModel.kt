@@ -12,10 +12,10 @@ import kotlin.random.Random
  * Feed Screen Data and Logic
  */
 class FeedViewModel(private val newsAPI: NewsAPI,
-                    private val userPreferencesDAO: UserPreferencesDAO,
-                    firebaseAuth: FirebaseAuth): ViewModel() {
+                    private val userPreferencesDAO: UserPreferencesDAO)
+    : ViewModel() {
 
-    private val email = firebaseAuth.currentUser?.email
+    private val email = FirebaseAuth.getInstance().currentUser?.email
     private val userPreferences = mutableListOf(3, 3, 3, 3, 3, 3, 3)
     private val articleIndexCount = mutableListOf(0, 0, 0, 0, 0, 0, 0)
 
@@ -133,12 +133,11 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     companion object {
         fun provideFactory(
             newsAPI: NewsAPI,
-            userPreferencesDAO: UserPreferencesDAO,
-            firebaseAuth: FirebaseAuth
+            userPreferencesDAO: UserPreferencesDAO
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return FeedViewModel(newsAPI, userPreferencesDAO, firebaseAuth) as T
+                return FeedViewModel(newsAPI, userPreferencesDAO) as T
             }
         }
     }
