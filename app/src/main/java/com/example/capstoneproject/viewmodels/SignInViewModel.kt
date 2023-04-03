@@ -59,7 +59,7 @@ class SignInViewModel(): ViewModel() {
 
             result
         } catch (e: Exception) {
-            Log.e("NewsAPI", "Failed to fetch news: ${e.message}")
+            Log.e("NewsAPI", "Failed to fetch news: ${e.message}")   //Figure out logs
             null
         }
     }

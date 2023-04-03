@@ -3,7 +3,10 @@ package com.example.capstoneproject.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Settings Screen Data and Logic
@@ -35,7 +38,10 @@ class SettingsViewModel: ViewModel() {
     }
 
     fun signOutButtonClicked() {
-        FirebaseAuth.getInstance().signOut()
-        _signOut.value = true
+        viewModelScope.launch(Dispatchers.Main) {
+            FirebaseAuth.getInstance().signOut()
+
+            _signOut.value = true
+        }
     }
 }
