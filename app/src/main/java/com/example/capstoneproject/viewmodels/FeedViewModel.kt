@@ -101,24 +101,24 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     }
 
     private suspend fun connectToAPI(country: String, category: String, apiKey: String): NewsResponse {
-        try {
+        return try {
             val response = newsAPI.getArticles(country, category, apiKey)
-            return if (response.isSuccessful) {
+            if (response.isSuccessful) {
                 response.body()!!
             } else {
                 NewsResponse()
             }
         } catch (e: Exception) {
             Log.e("NewsAPI", "Failed to fetch news: ${e.message}")
+            NewsResponse()
         }
-        return NewsResponse()
     }
 
     private fun retrieveUserPreferences(email: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val currentUserPreferences = userPreferencesDAO.get(email)
 
-            if (currentUserPreferences != null) {
+            currentUserPreferences?.let {
                 userPreferences[0] = currentUserPreferences.generalPreference
                 userPreferences[1] = currentUserPreferences.technologyPreference
                 userPreferences[2] = currentUserPreferences.entertainmentPreference

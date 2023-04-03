@@ -38,19 +38,19 @@ class SignInFragment : Fragment() {
             }
         })
 
-//        viewModel.signInAttempt.observe(viewLifecycleOwner, Observer<Boolean> {
-//            if (it) {
-//                val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
-//                view.findNavController().navigate(action)
-//            }
-//        })
-
-        viewModel.signInInvalid.observe(viewLifecycleOwner, Observer<Boolean> {
+        viewModel.signInAttempt.observe(viewLifecycleOwner, Observer<Boolean> {
             if (it) {
-                val snack = Snackbar.make(view, "Sign In Failed", Snackbar.LENGTH_SHORT)
-                snack.show()
+                val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
+                view.findNavController().navigate(action)
             }
         })
+
+//        viewModel.signInInvalid.observe(viewLifecycleOwner, Observer<Boolean> {
+//            if (it) {
+//                val snack = Snackbar.make(view, "Sign In Failed", Snackbar.LENGTH_SHORT)
+//                snack.show()
+//            }
+//        })
 
         viewModel.emptyFields.observe(viewLifecycleOwner, Observer<Boolean> {
             if (it) {
@@ -59,21 +59,21 @@ class SignInFragment : Fragment() {
             }
         })
 
-        viewModel.signInAttempt.observe(viewLifecycleOwner, Observer<Boolean> { result ->
-            if (result) {
-                FirebaseAuth.getInstance()
-                    .signInWithEmailAndPassword(viewModel.email, viewModel.password)
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
-                            view.findNavController().navigate(action)
-                        } else {
-                            val snack = Snackbar.make(view, it.exception.toString(), Snackbar.LENGTH_SHORT)
-                            snack.show()
-                        }
-                    }
-            }
-        })
+//        viewModel.signInAttempt.observe(viewLifecycleOwner, Observer<Boolean> { result ->
+//            if (result) {
+//                FirebaseAuth.getInstance()
+//                    .signInWithEmailAndPassword(viewModel.email, viewModel.password)
+//                    .addOnCompleteListener {
+//                        if (it.isSuccessful) {
+//                            val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
+//                            view.findNavController().navigate(action)
+//                        } else {
+//                            val snack = Snackbar.make(view, it.exception.toString(), Snackbar.LENGTH_SHORT)
+//                            snack.show()
+//                        }
+//                    }
+//            }
+//        })
 
         return view
     }
