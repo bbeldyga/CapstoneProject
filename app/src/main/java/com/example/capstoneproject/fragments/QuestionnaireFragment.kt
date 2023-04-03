@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.News4You
@@ -23,11 +24,6 @@ class QuestionnaireFragment : Fragment() {
     private lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var appContainer: AppContainer
 
-    private val action = QuestionnaireFragmentDirections.actionQuestionnaireFragmentToHomeFragment()
-    private val questionnaireData = mutableListOf("General", "Technology", "Entertainment", "Sports", "Business", "Health", "Science")
-    private var userNewsPrefs = mutableListOf(3, 3, 3, 3, 3, 3, 3)
-    private var questionnaireCount = 0
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentQuestionnaireBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -36,69 +32,24 @@ class QuestionnaireFragment : Fragment() {
         viewModelFactory = QuestionnaireViewModel.provideFactory(appContainer.userPreferencesDAO)
         viewModel = ViewModelProvider(this, viewModelFactory)[QuestionnaireViewModel::class.java]
 
-        binding.topicText.text = questionnaireData[questionnaireCount]
+        binding.questionnaireViewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.veryDisinterestedButton.setOnClickListener{
-            if (questionnaireCount < 7) {
-                userNewsPrefs[questionnaireCount++] = 1
-                showNextQuestion()
-            } else {
-                viewModel.saveResults(userNewsPrefs)
+        viewModel.finished.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val action = QuestionnaireFragmentDirections.actionQuestionnaireFragmentToHomeFragment()
                 view.findNavController().navigate(action)
             }
-        }
+        })
 
-        binding.disinterestedButton.setOnClickListener{
-            if (questionnaireCount < 7) {
-                userNewsPrefs[questionnaireCount++] = 2
-                showNextQuestion()
-            } else {
-                viewModel.saveResults(userNewsPrefs)
+        viewModel.skip.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val action = QuestionnaireFragmentDirections.actionQuestionnaireFragmentToHomeFragment()
                 view.findNavController().navigate(action)
             }
-        }
-
-        binding.noPreferenceButton.setOnClickListener{
-            if (questionnaireCount < 7) {
-                userNewsPrefs[questionnaireCount++] = 3
-                showNextQuestion()
-            } else {
-                viewModel.saveResults(userNewsPrefs)
-                view.findNavController().navigate(action)
-            }
-        }
-
-        binding.interestedButton.setOnClickListener{
-            if (questionnaireCount < 7) {
-                userNewsPrefs[questionnaireCount++] = 4
-                showNextQuestion()
-            } else {
-                viewModel.saveResults(userNewsPrefs)
-                view.findNavController().navigate(action)
-            }
-        }
-
-        binding.veryInterestedButton.setOnClickListener{
-            if (questionnaireCount < 7) {
-                userNewsPrefs[questionnaireCount++] = 5
-                showNextQuestion()
-            } else {
-                viewModel.saveResults(userNewsPrefs)
-                view.findNavController().navigate(action)
-            }
-        }
-
-        binding.skipButton.setOnClickListener {
-            view.findNavController().navigate(action)
-        }
+        })
 
         return view
-    }
-
-    private fun showNextQuestion() {
-        if (questionnaireCount != 7) {
-            binding.topicText.text = questionnaireData[questionnaireCount]
-        }
     }
 
     override fun onDestroyView() {

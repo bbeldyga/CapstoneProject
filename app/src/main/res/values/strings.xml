@@ -14,7 +14,6 @@
     <string name="very_uninterested">Very Uninterested</string>
     <string name="skip">Skip</string>
     <string name="proceed">Proceed</string>
-    <string name="topic">Topic</string>
     <string name="questionnaireIntroTitle">Welcome to News4You!</string>
     <string name="settingsMessage">%s\'s Settings</string>
     <string name="questionnaireIntroSummary">You are now encouraged to fill out a brief questionnaire so we can get an idea of your news preferences. If you would like to skip it we can generate a default feed for you.</string>
