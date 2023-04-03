@@ -24,12 +24,16 @@ class FeedViewModel(private val newsAPI: NewsAPI,
 
     private var _descriptionValue = MutableLiveData<String>("Loading your feed...")
     val descriptionValue: LiveData<String> get() = _descriptionValue
+
     private var _imageValue = MutableLiveData<String>()
     val imageValue: LiveData<String> get() = _imageValue
+
     private var _titleValue = MutableLiveData<String>()
     val titleValue: LiveData<String> get() = _titleValue
+
     private var _urlValue = MutableLiveData<String>()
     val urlValue: LiveData<String> get() = _urlValue
+
     private var _articleCount = MutableLiveData(0)
     val articleCount: LiveData<Int> get() = _articleCount
 

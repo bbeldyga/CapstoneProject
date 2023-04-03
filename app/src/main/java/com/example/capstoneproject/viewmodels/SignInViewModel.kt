@@ -68,14 +68,13 @@ class SignInViewModel(): ViewModel() {
         _notRegistered.value = true
     }
 
+    fun getCurrentUserValid(): Boolean {
+        return currentUserValid
+    }
 
     private fun checkCurrentUser() {
          if (FirebaseAuth.getInstance().currentUser != null) {
             currentUserValid = true
          }
-    }
-
-    fun getCurrentUserValid(): Boolean {
-        return currentUserValid
     }
 }

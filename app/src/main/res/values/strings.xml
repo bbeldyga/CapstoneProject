@@ -6,6 +6,7 @@
     <string name="home">Home</string>
     <string name="next">Next</string>
     <string name="explore">Explore</string>
+    <string name="retakeQuestionnaire">Retake Questionnaire</string>
     <string name="very_interested">Very Interested</string>
     <string name="interested">Interested</string>
     <string name="no_preference">No Preference</string>
@@ -15,6 +16,7 @@
     <string name="proceed">Proceed</string>
     <string name="topic">Topic</string>
     <string name="questionnaireIntroTitle">Welcome to News4You!</string>
+    <string name="settingsMessage">%s\'s Settings</string>
     <string name="questionnaireIntroSummary">You are now encouraged to fill out a brief questionnaire so we can get an idea of your news preferences. If you would like to skip it we can generate a default feed for you.</string>
     <string name="signUpIntro">Sign up to continue</string>
     <string name="passwordHint">Type Your Password</string>

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentSettingsBinding
@@ -19,31 +20,36 @@ class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SettingsViewModel
-    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val view = binding.root
+
         viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
-        firebaseAuth = FirebaseAuth.getInstance()
 
-        binding.test.text= firebaseAuth.currentUser?.email.toString()
+        binding.settingsViewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.homeButton.setOnClickListener {
-            val action = SettingsFragmentDirections.actionSettingsFragmentToHomeFragment()
-            view.findNavController().navigate(action)
-        }
+        viewModel.home.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val action = SettingsFragmentDirections.actionSettingsFragmentToHomeFragment()
+                view.findNavController().navigate(action)
+            }
+        })
 
-        binding.questionnaireButton.setOnClickListener {
-            val action = SettingsFragmentDirections.actionSettingsFragmentToQuestionnaireIntroFragment()
-            view.findNavController().navigate(action)
-        }
+        viewModel.questionnaire.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val action = SettingsFragmentDirections.actionSettingsFragmentToQuestionnaireIntroFragment()
+                view.findNavController().navigate(action)
+            }
+        })
 
-        binding.signOutButton.setOnClickListener {
-            firebaseAuth.signOut()
-            val action = SettingsFragmentDirections.actionSettingsFragmentToSignInFragment()
-            view.findNavController().navigate(action)
-        }
+        viewModel.signOut.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val action = SettingsFragmentDirections.actionSettingsFragmentToSignInFragment()
+                view.findNavController().navigate(action)
+            }
+        })
 
         return view
     }

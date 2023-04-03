@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentQuestionnaireIntroBinding
@@ -22,16 +23,26 @@ class QuestionnaireIntroFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentQuestionnaireIntroBinding.inflate(inflater, container, false)
         val view = binding.root
+
         viewModel = ViewModelProvider(this)[QuestionnaireIntroViewModel::class.java]
 
-        binding.skipButton.setOnClickListener {
-            val action = QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToHomeFragment()
-            view.findNavController().navigate(action)
-        }
-        binding.proceedButton.setOnClickListener{
-            val action = QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToQuestionnaireFragment()
-            view.findNavController().navigate(action)
-        }
+        binding.questionnaireIntroViewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        viewModel.skip.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val action = QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToHomeFragment()
+                view.findNavController().navigate(action)
+            }
+        })
+
+        viewModel.proceed.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val action = QuestionnaireIntroFragmentDirections.actionQuestionnaireIntroFragmentToQuestionnaireFragment()
+                view.findNavController().navigate(action)
+            }
+        })
+
         return view
     }
 

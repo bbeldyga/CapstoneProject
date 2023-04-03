@@ -80,6 +80,7 @@ class SignInFragment : Fragment() {
 
     override fun onStart() {
             super.onStart()
+
             if(viewModel.getCurrentUserValid()){
                 val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
                 view?.findNavController()?.navigate(action)
