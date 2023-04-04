@@ -52,7 +52,7 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     }
 
     fun updateUI() {
-        val index = Random.nextInt(0, 6)
+        val index = pickNextCategoryIndex()
 
         if (articleCount.value == 40) {
             return
@@ -132,6 +132,35 @@ class FeedViewModel(private val newsAPI: NewsAPI,
                 userPreferences[6] = currentUserPreferences.sciencePreference
             }
         }
+    }
+
+    private fun pickNextCategoryIndex(): Int {
+        val end = userPreferences.sum() * 10
+        val adjustedPreferences = listOf((userPreferences[0] * 10), (userPreferences[1] * 10),
+            (userPreferences[2] * 10), (userPreferences[3] * 10), (userPreferences[4] * 10),
+            (userPreferences[5] * 10), (userPreferences[6] * 10))
+
+        val random = Random.nextInt(1, end)
+
+        val intervalOne = adjustedPreferences[0]
+        val intervalTwo = intervalOne + adjustedPreferences[1]
+        val intervalThree = intervalTwo + adjustedPreferences[2]
+        val intervalFour = intervalThree + adjustedPreferences[3]
+        val intervalFive = intervalFour + adjustedPreferences[4]
+        val intervalSix = intervalFive + adjustedPreferences[5]
+
+        val categoryIndex = when (random) {
+            in 1 .. (intervalOne) -> 0
+            in (intervalOne + 1) .. (intervalTwo) -> 1
+            in (intervalTwo + 1) .. (intervalThree) -> 2
+            in (intervalThree + 1) .. (intervalFour) -> 3
+            in (intervalFour + 1) .. (intervalFive) -> 4
+            in (intervalFive + 1) .. (intervalSix) -> 5
+            in (intervalSix + 1) .. (end) -> 6
+            else -> 0
+        }
+
+        return categoryIndex
     }
 
     companion object {
