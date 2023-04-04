@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "userPreferenceTable")  //Will have to update version number after this changes
+@Entity(tableName = "userPreferenceTable")
 data class UserPreferences (
     @PrimaryKey
     val email: String,

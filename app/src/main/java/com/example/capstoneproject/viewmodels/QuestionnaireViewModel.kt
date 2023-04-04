@@ -64,13 +64,13 @@ class QuestionnaireViewModel(private val userPreferencesDAO: UserPreferencesDAO)
 
     private fun recordResponse(response: Int) {
         when (questionnaireCount) {
-                0,1,2,3,4,5 -> {
+                 in 0..5 -> {
                     userNewsPrefs[questionnaireCount++] = response
                     _topic.value = questionnaireData[questionnaireCount]
                 }
                 6 -> {
-                    userNewsPrefs[questionnaireCount++] = response
-                        saveResults()
+                    userNewsPrefs[questionnaireCount] = response
+                    saveResults()
                 }
         }
     }

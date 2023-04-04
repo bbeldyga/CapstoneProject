@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.example.capstoneproject.News4You
+import com.example.capstoneproject.database.UserPreferencesDatabase
 import com.example.capstoneproject.databinding.FragmentFeedBinding
 import com.example.capstoneproject.dataobjects.AppContainer
 import com.example.capstoneproject.viewmodels.FeedViewModel
@@ -31,9 +32,10 @@ class FeedFragment : Fragment() {
         _binding = FragmentFeedBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val application = requireNotNull(this.activity).application
+        val dao = UserPreferencesDatabase.getInstance(application).userPreferencesDAO
         appContainer = (requireContext().applicationContext as News4You).appContainer
-        viewModelFactory = FeedViewModel.provideFactory(appContainer.newsAPI,
-                                                        appContainer.userPreferencesDAO)
+        viewModelFactory = FeedViewModel.provideFactory(appContainer.newsAPI, dao)
         viewModel = ViewModelProvider(this, viewModelFactory)[FeedViewModel::class.java]
 
         binding.feedViewModel = viewModel

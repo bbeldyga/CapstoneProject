@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentHomeBinding
 import com.example.capstoneproject.viewmodels.HomeViewModel
-import com.google.firebase.auth.FirebaseAuth
 
 /**
  * Home Screen UI Interaction

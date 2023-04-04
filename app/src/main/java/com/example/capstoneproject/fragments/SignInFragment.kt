@@ -11,7 +11,6 @@ import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentSignInBinding
 import com.example.capstoneproject.viewmodels.SignInViewModel
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 
 /**
  * Questionnaire Intro Screen UI Interaction
@@ -45,35 +44,12 @@ class SignInFragment : Fragment() {
             }
         })
 
-//        viewModel.signInInvalid.observe(viewLifecycleOwner, Observer<Boolean> {
-//            if (it) {
-//                val snack = Snackbar.make(view, "Sign In Failed", Snackbar.LENGTH_SHORT)
-//                snack.show()
-//            }
-//        })
-
         viewModel.emptyFields.observe(viewLifecycleOwner, Observer<Boolean> {
             if (it) {
                 val snack = Snackbar.make(view, "Empty fields are not allowed", Snackbar.LENGTH_SHORT)
                 snack.show()
             }
         })
-
-//        viewModel.signInAttempt.observe(viewLifecycleOwner, Observer<Boolean> { result ->
-//            if (result) {
-//                FirebaseAuth.getInstance()
-//                    .signInWithEmailAndPassword(viewModel.email, viewModel.password)
-//                    .addOnCompleteListener {
-//                        if (it.isSuccessful) {
-//                            val action = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
-//                            view.findNavController().navigate(action)
-//                        } else {
-//                            val snack = Snackbar.make(view, it.exception.toString(), Snackbar.LENGTH_SHORT)
-//                            snack.show()
-//                        }
-//                    }
-//            }
-//        })
 
         return view
     }

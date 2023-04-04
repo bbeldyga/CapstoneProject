@@ -34,12 +34,6 @@ class SignInViewModel(): ViewModel() {
         checkCurrentUser()
     }
 
-//    fun signIn() {
-//        if (email.isNotEmpty() && password.isNotEmpty()) {
-//            _signInAttempt.value = true
-//        }
-//    }
-
     fun signIn() {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             viewModelScope.launch(Dispatchers.Main) {

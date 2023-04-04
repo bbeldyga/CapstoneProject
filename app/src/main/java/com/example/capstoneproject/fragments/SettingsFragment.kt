@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.databinding.FragmentSettingsBinding
 import com.example.capstoneproject.viewmodels.SettingsViewModel
-import com.google.firebase.auth.FirebaseAuth
 
 /**
  * Settings Screen UI Interaction

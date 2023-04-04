@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.capstoneproject.News4You
+import com.example.capstoneproject.database.UserPreferencesDatabase
 import com.example.capstoneproject.databinding.FragmentQuestionnaireBinding
 import com.example.capstoneproject.dataobjects.AppContainer
 import com.example.capstoneproject.viewmodels.QuestionnaireViewModel
@@ -28,8 +29,10 @@ class QuestionnaireFragment : Fragment() {
         _binding = FragmentQuestionnaireBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val application = requireNotNull(this.activity).application
+        val dao = UserPreferencesDatabase.getInstance(application).userPreferencesDAO
         appContainer = (requireContext().applicationContext as News4You).appContainer
-        viewModelFactory = QuestionnaireViewModel.provideFactory(appContainer.userPreferencesDAO)
+        viewModelFactory = QuestionnaireViewModel.provideFactory(dao)
         viewModel = ViewModelProvider(this, viewModelFactory)[QuestionnaireViewModel::class.java]
 
         binding.questionnaireViewModel = viewModel
