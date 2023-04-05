@@ -3,6 +3,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.capstoneproject.interfaces.NewsAPI
 import com.example.capstoneproject.dataobjects.NewsResponse
+import com.example.capstoneproject.dataobjects.UserPreferences
 import com.example.capstoneproject.interfaces.UserPreferencesDAO
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.*
@@ -18,6 +19,8 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     private val email = FirebaseAuth.getInstance().currentUser?.email
     private val userPreferences = mutableListOf(3, 3, 3, 3, 3, 3, 3)
     private val articleIndexCount = mutableListOf(0, 0, 0, 0, 0, 0, 0)
+    var categoryValue = -1
+    var exploreCheck = true
 
     private val feedSource = MutableList(7) {NewsResponse()}
     private val apiKeys = mutableListOf("5e9f7c5f70c441378877ab85830ecdc2")
@@ -37,6 +40,8 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     private var _articleCount = MutableLiveData(0)
     val articleCount: LiveData<Int> get() = _articleCount
 
+
+
     init {
         viewModelScope.launch {
             withTimeout(5000) {
@@ -46,12 +51,12 @@ class FeedViewModel(private val newsAPI: NewsAPI,
             retrieveUserPreferences(email!!)
 
             withContext(Dispatchers.Main) {
-                updateUI()
+                updateUI(0)
             }
         }
     }
 
-    fun updateUI() {
+    fun updateUI(weight: Int) {
         val index = pickNextCategoryIndex()
 
         if (articleCount.value == 40) {
@@ -61,18 +66,39 @@ class FeedViewModel(private val newsAPI: NewsAPI,
             feedSource[index].articles[articleIndexCount[index]].urlToImage != null &&
             feedSource[index].articles[articleIndexCount[index]].description != null &&
             articleIndexCount[index] < 20) {
+            if (categoryValue != -1) {
+                updatePreferences(categoryValue, weight)
+            }
             _urlValue.value = feedSource[index].articles[articleIndexCount[index]].url!!
             _titleValue.value = feedSource[index].articles[articleIndexCount[index]].title!!
             _imageValue.value = feedSource[index].articles[articleIndexCount[index]].urlToImage!!
             _descriptionValue.value = feedSource[index].articles[articleIndexCount[index]++].description!!
+            categoryValue = index
+            exploreCheck = true
             _articleCount.value = _articleCount.value?.plus(1)
             return
         } else if (articleIndexCount[index] == 20){
-            updateUI()
+            updateUI(0)
         } else {
             articleIndexCount[index]++
             _articleCount.value = _articleCount.value?.plus(1)
-            updateUI()
+            updateUI(0)
+        }
+    }
+
+    fun updatePreferences(index: Int, value: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userPreferences[index] += value
+            if (userPreferences[index] > 10)  {
+                userPreferences[index] = 10
+            }
+            else if (userPreferences[index] < 0) {
+                userPreferences[index] = 0
+            }
+            val newPreferences = email?.let { UserPreferences(it, userPreferences[0], userPreferences[1],userPreferences[2], userPreferences[3], userPreferences[4],userPreferences[5], userPreferences[6]) }
+            if (newPreferences != null) {
+                userPreferencesDAO.update(newPreferences)
+            }
         }
     }
 

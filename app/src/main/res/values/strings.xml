@@ -28,4 +28,6 @@
     <string name="signIn">Sign In</string>
     <string name="notSignedUp">I don\'t have an account</string>
     <string name ="signOut">Sign Out</string>
+    <string name ='like'>Like</string>
+    <string name ='dislike'>Dislike</string>
 </resources>

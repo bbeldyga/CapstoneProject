@@ -50,6 +50,11 @@ class FeedFragment : Fragment() {
         viewModel.urlValue.observe(viewLifecycleOwner, Observer<String> { urlValue ->
             if (urlValue != "") {
                 binding.exploreButton.setOnClickListener {
+                    if (viewModel.exploreCheck) {
+                        viewModel.updatePreferences(viewModel.categoryValue, 3)
+                        viewModel.exploreCheck = false
+                    }
+
                     val webpage = Uri.parse(urlValue)
                     val intent = Intent(Intent.ACTION_VIEW, webpage)
                     startActivity(intent)

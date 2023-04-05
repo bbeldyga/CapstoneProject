@@ -15,5 +15,5 @@ interface UserPreferencesDAO {
     suspend fun delete(userPreferences: UserPreferences)
 
     @Query("SELECT * FROM userPreferenceTable WHERE email = :email")
-    suspend fun get(email: String): UserPreferences
+    suspend fun get(email: kotlin.String?): UserPreferences
 }
