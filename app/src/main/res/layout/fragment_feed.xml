@@ -20,8 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:textSize="25sp"
+            android:textSize="22sp"
             android:textStyle="bold"
+            android:padding="10dp"
+            android:maxLines="3"
             android:layout_gravity="center"
             android:textAlignment="center"
             android:text="@{feedViewModel.titleValue}"/>
@@ -35,12 +37,13 @@
 
         <TextView
             android:id="@+id/newsText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="10dp"
             android:textSize="16sp"
-            android:layout_marginHorizontal="5dp"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
             android:text="@{feedViewModel.descriptionValue}"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,36 +51,36 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <Button
+            <ImageButton
                 android:id="@+id/dislikeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:onClick="@{(view) -> feedViewModel.updateUI(-0.1f)}"
-                android:text="@string/dislike"
+                android:src="@drawable/baseline_thumb_down_50"
+                android:background="#00000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/exploreButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/likeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:onClick="@{(view) -> feedViewModel.updateUI(0.1f)}"
-                android:text="@string/like"
+                android:src="@drawable/baseline_thumb_up_50"
+                android:background="#00000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/exploreButton"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/exploreButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/explore"
+                android:src="@drawable/baseline_chrome_reader_mode_50"
+                android:background="#00000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/likeButton"
                 app:layout_constraintStart_toEndOf="@+id/dislikeButton"
@@ -89,26 +92,29 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
-            <Button
+
+            <ImageButton
                 android:id="@+id/homeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home"
+                android:background="#00000000"
                 android:onClick="@{() -> feedViewModel.homeButtonClicked()}"
-                app:layout_constraintEnd_toStartOf="@id/shareButton"
-                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/baseline_home_50"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/shareButton"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/shareButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/share"
+                android:background="#00000000"
                 android:onClick="@{() -> feedViewModel.shareButtonClicked()}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/homeButton"
+                android:src="@drawable/baseline_share_50"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/homeButton"
                 app:layout_constraintTop_toTopOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
