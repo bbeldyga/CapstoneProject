@@ -33,9 +33,9 @@ class QuestionnaireViewModel(private val userPreferencesDAO: UserPreferencesDAO)
 
     private fun saveResults() {
         viewModelScope.launch(Dispatchers.Main) {
-            val userPreferences = UserPreferences(email!!, userNewsPrefs[0],
-                userNewsPrefs[1], userNewsPrefs[2], userNewsPrefs[3], userNewsPrefs[4],
-                userNewsPrefs[5], userNewsPrefs[6])
+            val userPreferences = UserPreferences(email!!, userNewsPrefs[0].toFloat(),
+                userNewsPrefs[1].toFloat(), userNewsPrefs[2].toFloat(), userNewsPrefs[3].toFloat(),
+                userNewsPrefs[4].toFloat(), userNewsPrefs[5].toFloat(), userNewsPrefs[6].toFloat())
 
             userPreferencesDAO.insert(userPreferences)
             _finished.value = true

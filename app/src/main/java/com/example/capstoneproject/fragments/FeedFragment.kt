@@ -72,7 +72,7 @@ class FeedFragment : Fragment() {
             if (urlValue != "") {
                 binding.exploreButton.setOnClickListener {
                     if (viewModel.exploreCheck) {
-                        viewModel.updatePreferences(viewModel.categoryValue, 3)
+                        viewModel.updatePreferences(viewModel.categoryValue, 0.3f)
                         viewModel.exploreCheck = false
                     }
 

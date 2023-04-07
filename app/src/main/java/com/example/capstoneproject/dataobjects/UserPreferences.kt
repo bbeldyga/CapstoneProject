@@ -9,17 +9,17 @@ data class UserPreferences (
     @PrimaryKey
     val email: String,
     @ColumnInfo(name = "General")
-    val generalPreference: Int,
+    val generalPreference: Float,
     @ColumnInfo(name = "Technology")
-    val technologyPreference: Int,
+    val technologyPreference: Float,
     @ColumnInfo(name = "Entertainment")
-    val entertainmentPreference: Int,
+    val entertainmentPreference: Float,
     @ColumnInfo(name = "Sports")
-    val sportsPreference: Int,
+    val sportsPreference: Float,
     @ColumnInfo(name = "Business")
-    val businessPreference: Int,
+    val businessPreference: Float,
     @ColumnInfo(name = "Health")
-    val healthPreference: Int,
+    val healthPreference: Float,
     @ColumnInfo(name = "Science")
-    val sciencePreference: Int
+    val sciencePreference: Float
 )

@@ -1,7 +1,9 @@
 package com.example.capstoneproject.interfaces
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.capstoneproject.dataobjects.UserPreferences
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserPreferencesDAO {
@@ -15,5 +17,5 @@ interface UserPreferencesDAO {
     suspend fun delete(userPreferences: UserPreferences)
 
     @Query("SELECT * FROM userPreferenceTable WHERE email = :email")
-    suspend fun get(email: kotlin.String?): UserPreferences
+    fun get(email: String): LiveData<UserPreferences>
 }
