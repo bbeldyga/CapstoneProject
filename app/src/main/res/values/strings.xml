@@ -30,4 +30,5 @@
     <string name ="signOut">Sign Out</string>
     <string name ='like'>Like</string>
     <string name ='dislike'>Dislike</string>
+    <string name ='share'>Share</string>
 </resources>

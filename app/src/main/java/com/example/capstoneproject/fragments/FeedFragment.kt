@@ -1,5 +1,8 @@
 package com.example.capstoneproject.fragments
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import coil.load
 import com.example.capstoneproject.News4You
 import com.example.capstoneproject.database.UserPreferencesDatabase
@@ -28,7 +32,7 @@ class FeedFragment : Fragment() {
     private lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var appContainer: AppContainer
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFeedBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -41,9 +45,26 @@ class FeedFragment : Fragment() {
         binding.feedViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.imageValue.observe(viewLifecycleOwner, Observer<String> { imageValue ->
+        viewModel.imageValue.observe(viewLifecycleOwner, Observer<String >{ imageValue ->
             if (imageValue != "") {
                 binding.newsImage.load(imageValue)
+            }
+        })
+
+        viewModel.home.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val action = FeedFragmentDirections.actionFeedFragmentToHomeFragment()
+                view.findNavController().navigate(action)
+            }
+        })
+
+        viewModel.share.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+                val myClipboard : ClipboardManager = activity?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clip : ClipData = ClipData.newPlainText("label", viewModel.urlValue.value)
+                myClipboard.setPrimaryClip(clip)
+                val snack = Snackbar.make(view, "URL copied!", Snackbar.LENGTH_LONG)
+                snack.show()
             }
         })
 

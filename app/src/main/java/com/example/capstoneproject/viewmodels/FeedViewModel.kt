@@ -40,7 +40,11 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     private var _articleCount = MutableLiveData(0)
     val articleCount: LiveData<Int> get() = _articleCount
 
+    private var _home = MutableLiveData(false)
+    val home: LiveData<Boolean> get() = _home
 
+    private var _share = MutableLiveData(false)
+    val share: LiveData<Boolean> get() = _share
 
     init {
         viewModelScope.launch {
@@ -148,7 +152,7 @@ class FeedViewModel(private val newsAPI: NewsAPI,
         viewModelScope.launch(Dispatchers.IO) {
             val currentUserPreferences = userPreferencesDAO.get(email)
 
-            currentUserPreferences?.let {
+            currentUserPreferences.let {
                 userPreferences[0] = currentUserPreferences.generalPreference
                 userPreferences[1] = currentUserPreferences.technologyPreference
                 userPreferences[2] = currentUserPreferences.entertainmentPreference
@@ -187,6 +191,14 @@ class FeedViewModel(private val newsAPI: NewsAPI,
         }
 
         return categoryIndex
+    }
+
+    fun homeButtonClicked() {
+        _home.value = true
+    }
+
+    fun shareButtonClicked() {
+        _share.value = true
     }
 
     companion object {
