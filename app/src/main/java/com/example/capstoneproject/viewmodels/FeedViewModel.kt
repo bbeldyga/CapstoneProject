@@ -44,6 +44,12 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     private var _articleCount = MutableLiveData(0)
     val articleCount: LiveData<Int> get() = _articleCount
 
+    private var _home = MutableLiveData(false)
+    val home: LiveData<Boolean> get() = _home
+
+    private var _share = MutableLiveData(false)
+    val share: LiveData<Boolean> get() = _share
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             withTimeout(5000) {
@@ -179,6 +185,14 @@ class FeedViewModel(private val newsAPI: NewsAPI,
         }
 
         return categoryIndex
+    }
+
+    fun homeButtonClicked() {
+        _home.value = true
+    }
+
+    fun shareButtonClicked() {
+        _share.value = true
     }
 
     companion object {
