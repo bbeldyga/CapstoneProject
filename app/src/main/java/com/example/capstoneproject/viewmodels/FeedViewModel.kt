@@ -19,15 +19,15 @@ class FeedViewModel(private val newsAPI: NewsAPI,
 
     private val email = FirebaseAuth.getInstance().currentUser?.email
     private val userPreferences = mutableListOf(3f, 3f, 3f, 3f, 3f, 3f, 3f)
+    private val apiKeys = listOf("5e9f7c5f70c441378877ab85830ecdc2", "5006c6365e864383a603490ef274ebbd")
+    private val articleIndexCount = mutableListOf(0, 0, 0, 0, 0, 0, 0)
+    private val feedSource = MutableList(7) {NewsResponse()}
+
     private val preferences = email?.let { userPreferencesDAO.get(it).map { preferences ->
                                                     savePreferences(preferences) } }
 
-    private val articleIndexCount = mutableListOf(0, 0, 0, 0, 0, 0, 0)
-    var categoryValue = -1
-    var exploreCheck = true
-
-    private val feedSource = MutableList(7) {NewsResponse()}
-    private val apiKeys = mutableListOf("5e9f7c5f70c441378877ab85830ecdc2")
+    private var categoryValue = -1
+    private var exploreCheck = true
 
     private var _descriptionValue = MutableLiveData<String>("Loading your feed...")
     val descriptionValue: LiveData<String> get() = _descriptionValue
@@ -53,7 +53,7 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     init {
         viewModelScope.launch(Dispatchers.IO) {
             withTimeout(5000) {
-                getNews(apiKeys[0])
+                getNews(apiKeys[1])
             }
 
             withContext(Dispatchers.Main) {
@@ -77,7 +77,8 @@ class FeedViewModel(private val newsAPI: NewsAPI,
             _titleValue.value = feedSource[index].articles[articleIndexCount[index]].title!!
             _imageValue.value = feedSource[index].articles[articleIndexCount[index]].urlToImage!!
             _descriptionValue.value = feedSource[index].articles[articleIndexCount[index]++].description!!
-            updatePreferences(index, weight)
+            categoryValue = index
+            updatePreferences(weight)
             exploreCheck = true
             _articleCount.value = _articleCount.value?.plus(1)
             return
@@ -89,12 +90,12 @@ class FeedViewModel(private val newsAPI: NewsAPI,
         }
     }
 
-    fun updatePreferences(index: Int, value: Float) {
-            userPreferences[index] += value
-            if (userPreferences[index] > 10f)  {
-                userPreferences[index] = 10f
-            } else if (userPreferences[index] < 0f) {
-                userPreferences[index] = 0f
+    fun updatePreferences(value: Float) {
+            userPreferences[categoryValue] += value
+            if (userPreferences[categoryValue] > 10f)  {
+                userPreferences[categoryValue] = 10f
+            } else if (userPreferences[categoryValue] < 0f) {
+                userPreferences[categoryValue] = 0f
             }
             val newPreferences = email?.let { UserPreferences(it, userPreferences[0], userPreferences[1],
                 userPreferences[2], userPreferences[3], userPreferences[4],userPreferences[5], userPreferences[6]) }
@@ -194,6 +195,9 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     fun shareButtonClicked() {
         _share.value = true
     }
+
+    fun getExploreCheck() = exploreCheck
+    fun setExploreCheck(newValue: Boolean) { exploreCheck = newValue }
 
     companion object {
         fun provideFactory(
