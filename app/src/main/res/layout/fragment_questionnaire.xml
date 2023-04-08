@@ -24,7 +24,7 @@
 
         <Button
             android:id="@+id/veryInterestedButton"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:layout_gravity="center_horizontal"
@@ -34,7 +34,7 @@
 
         <Button
             android:id="@+id/interestedButton"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:layout_gravity="center_horizontal"
@@ -44,7 +44,7 @@
 
         <Button
             android:id="@+id/noPreferenceButton"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:layout_gravity="center_horizontal"
@@ -54,7 +54,7 @@
 
         <Button
             android:id="@+id/uninterestedButton"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:layout_gravity="center_horizontal"
@@ -64,7 +64,7 @@
 
         <Button
             android:id="@+id/veryDisinterestedButton"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:layout_gravity="center_horizontal"

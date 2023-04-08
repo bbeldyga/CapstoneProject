@@ -1,15 +1,19 @@
 package com.example.capstoneproject.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.capstoneproject.R
 import com.example.capstoneproject.databinding.FragmentHomeBinding
 import com.example.capstoneproject.viewmodels.HomeViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 /**
  * Home Screen UI Interaction
@@ -42,6 +46,9 @@ class HomeFragment : Fragment() {
                 view.findNavController().navigate(action)
             }
         })
+
+        val navBar = (activity as MainActivity).findViewById<BottomNavigationView>(R.id.bottomNav)
+        navBar.visibility = VISIBLE
 
         return view
     }

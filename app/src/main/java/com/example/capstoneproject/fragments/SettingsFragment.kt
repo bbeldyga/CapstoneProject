@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.capstoneproject.R
 import com.example.capstoneproject.databinding.FragmentSettingsBinding
 import com.example.capstoneproject.viewmodels.SettingsViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
  * Settings Screen UI Interaction
@@ -46,6 +49,8 @@ class SettingsFragment : Fragment() {
         viewModel.signOut.observe(viewLifecycleOwner, Observer<Boolean> {
             if (it) {
                 val action = SettingsFragmentDirections.actionSettingsFragmentToSignInFragment()
+                val navBar = (activity as MainActivity).findViewById<BottomNavigationView>(R.id.bottomNav)
+                navBar.visibility = GONE
                 view.findNavController().navigate(action)
             }
         })

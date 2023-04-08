@@ -53,7 +53,7 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     init {
         viewModelScope.launch(Dispatchers.IO) {
             withTimeout(5000) {
-                getNews(apiKeys[1])
+                getNews(apiKeys[0])
             }
 
             withContext(Dispatchers.Main) {

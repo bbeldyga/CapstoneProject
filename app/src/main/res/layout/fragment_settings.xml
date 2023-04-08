@@ -20,23 +20,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@{@string/settingsMessage(settingsViewModel.email)}"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@+id/questionnaireButton"
+            android:textSize="22sp"
+            android:layout_margin="5dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/homeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:background="#00000000"
             android:onClick="@{() -> settingsViewModel.homeButtonClicked()}"
-            android:text="@string/home"
-            app:layout_constraintBottom_toTopOf="@+id/signOutButton"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/round_arrow_back_50_grey"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/questionnaireButton" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <Button
@@ -45,10 +42,10 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> settingsViewModel.questionnaireButtonClicked()}"
             android:text="@string/retakeQuestionnaire"
-            app:layout_constraintBottom_toTopOf="@+id/homeButton"
+            app:layout_constraintBottom_toTopOf="@+id/signOutButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/test" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/signOutButton"
@@ -60,7 +57,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeButton" />
+            app:layout_constraintTop_toBottomOf="@+id/questionnaireButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

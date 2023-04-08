@@ -70,7 +70,7 @@ class FeedFragment : Fragment() {
 
         viewModel.urlValue.observe(viewLifecycleOwner, Observer<String> { urlValue ->
             if (urlValue != "") {
-                binding.exploreButton.setOnClickListener {
+                binding.newsImage.setOnClickListener {
                     if (viewModel.getExploreCheck()) {
                         viewModel.updatePreferences(0.3f)
                         viewModel.setExploreCheck(false)
