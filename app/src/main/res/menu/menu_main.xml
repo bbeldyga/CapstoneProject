@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/feedFragment"
+        android:icon="@drawable/baseline_chrome_reader_mode_50"
+        android:title="@string/feed"/>
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/baseline_home_50"
+        android:title="@string/home"/>
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/baseline_more_horiz_50"
+        android:title="@string/settings"/>
+</menu>
