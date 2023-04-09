@@ -20,23 +20,23 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
         bottomNavigationView.setupWithNavController(navController)
         bottomNavigationView.visibility = GONE
-//
-//        bottomNavigationView?.setOnItemSelectedListener { item ->
-//            when (item.itemId) {
-//                androidx.navigation.R.id.feedFragment -> {
-//                    navController.navigate(androidx.navigation.R.id.optionsFragment, bundle)
-//                    true
-//                }
-//                androidx.navigation.R.id.homeFragment -> {
-//                    navController.navigate(androidx.navigation.R.id.helpFragment)
-//                    true
-//                }
-//                androidx.navigation.R.id.blankFragment -> {
-//                    navController.navigate(androidx.navigation.R.id.blankFragment)
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
+
+        bottomNavigationView?.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.feedFragment -> {
+                    navController.navigate(R.id.feedFragment)
+                    true
+                }
+                R.id.homeFragment -> {
+                    navController.navigate(R.id.homeFragment)
+                    true
+                }
+                R.id.settingsFragment -> {
+                    navController.navigate(R.id.settingsFragment)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }
