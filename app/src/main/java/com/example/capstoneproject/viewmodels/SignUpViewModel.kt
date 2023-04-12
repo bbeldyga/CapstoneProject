@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -20,6 +21,9 @@ class SignUpViewModel: ViewModel() {
     var email = ""
     var password = ""
     var retypedPassword = ""
+
+    private val errorHandler = CoroutineExceptionHandler {_, exception ->
+        exception.printStackTrace() }
 
     private var _alreadyRegistered = MutableLiveData(false)
     val alreadyRegistered: LiveData<Boolean> get() = _alreadyRegistered
@@ -37,7 +41,7 @@ class SignUpViewModel: ViewModel() {
         if (email.isNotEmpty() && password.isNotEmpty() &&
             retypedPassword.isNotEmpty()) {
             if (password == retypedPassword) {
-                viewModelScope.launch(Dispatchers.Main) {
+                viewModelScope.launch(Dispatchers.Main + errorHandler) {
                     val result = async { attemptSignUp() }
 
                     _signUp.value = result.await() != null

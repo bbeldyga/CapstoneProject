@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -12,6 +13,9 @@ import kotlinx.coroutines.launch
  * Settings Screen Data and Logic
  */
 class SettingsViewModel: ViewModel() {
+
+    private val errorHandler = CoroutineExceptionHandler {_, exception ->
+        exception.printStackTrace() }
 
     private var _home = MutableLiveData(false)
     val home: LiveData<Boolean> get() = _home
@@ -38,7 +42,7 @@ class SettingsViewModel: ViewModel() {
     }
 
     fun signOutButtonClicked() {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.Main + errorHandler) {
             FirebaseAuth.getInstance().signOut()
 
             _signOut.value = true

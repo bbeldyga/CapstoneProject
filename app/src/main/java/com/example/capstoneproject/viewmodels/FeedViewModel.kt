@@ -26,6 +26,8 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     private val preferences = email?.let { userPreferencesDAO.get(it).map { preferences ->
                                                     savePreferences(preferences) } }
 
+    private val errorHandler = CoroutineExceptionHandler {_, exception ->
+        exception.printStackTrace() }
     private var categoryValue = -1
     private var exploreCheck = true
 
@@ -51,7 +53,7 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     val share: LiveData<Boolean> get() = _share
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO + errorHandler) {
             withTimeout(5000) {
                 getNews(apiKeys[0])
             }
@@ -100,7 +102,7 @@ class FeedViewModel(private val newsAPI: NewsAPI,
             val newPreferences = email?.let { UserPreferences(it, userPreferences[0], userPreferences[1],
                 userPreferences[2], userPreferences[3], userPreferences[4],userPreferences[5], userPreferences[6]) }
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO + errorHandler) {
             if (newPreferences != null) {
                 userPreferencesDAO.update(newPreferences)
             }
@@ -108,7 +110,7 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     }
 
     private suspend fun getNews(apiKey: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO+ errorHandler) {
             val generalNews =
                 async { connectToAPI("us", "general", apiKey) }
             val technologyNews =
@@ -186,10 +188,6 @@ class FeedViewModel(private val newsAPI: NewsAPI,
         }
 
         return categoryIndex
-    }
-
-    fun homeButtonClicked() {
-        _home.value = true
     }
 
     fun shareButtonClicked() {

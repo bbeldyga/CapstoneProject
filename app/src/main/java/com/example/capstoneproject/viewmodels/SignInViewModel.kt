@@ -3,6 +3,7 @@ package com.example.capstoneproject.viewmodels
 import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.*
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -17,6 +18,9 @@ class SignInViewModel(): ViewModel() {
     var password = ""
 
     private var currentUserValid = false
+
+    private val errorHandler = CoroutineExceptionHandler {_, exception ->
+        exception.printStackTrace() }
 
     private var _notRegistered = MutableLiveData(false)
     val notRegistered: LiveData<Boolean> get() = _notRegistered
@@ -36,7 +40,7 @@ class SignInViewModel(): ViewModel() {
 
     fun signIn() {
         if (email.isNotEmpty() && password.isNotEmpty()) {
-            viewModelScope.launch(Dispatchers.Main) {
+            viewModelScope.launch(Dispatchers.Main + errorHandler) {
                 val auth = async { authorizeUser() }
 
                 _signInAttempt.value = auth.await() != null

@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.example.capstoneproject.dataobjects.UserPreferences
 import com.example.capstoneproject.interfaces.UserPreferencesDAO
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,6 +18,9 @@ class QuestionnaireViewModel(private val userPreferencesDAO: UserPreferencesDAO)
     private val questionnaireData = mutableListOf("General", "Technology", "Entertainment", "Sports", "Business", "Health", "Science")
     private var userNewsPrefs = mutableListOf(3, 3, 3, 3, 3, 3, 3)
     private var questionnaireCount = 0
+
+    private val errorHandler = CoroutineExceptionHandler {_, exception ->
+        exception.printStackTrace() }
 
     private var _topic = MutableLiveData<String>()
     val topic: LiveData<String> get() = _topic
@@ -32,7 +36,7 @@ class QuestionnaireViewModel(private val userPreferencesDAO: UserPreferencesDAO)
     }
 
     private fun saveResults() {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.Main + errorHandler) {
             val userPreferences = UserPreferences(email!!, userNewsPrefs[0].toFloat(),
                 userNewsPrefs[1].toFloat(), userNewsPrefs[2].toFloat(), userNewsPrefs[3].toFloat(),
                 userNewsPrefs[4].toFloat(), userNewsPrefs[5].toFloat(), userNewsPrefs[6].toFloat())

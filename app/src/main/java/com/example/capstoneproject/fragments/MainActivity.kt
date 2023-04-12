@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
         bottomNavigationView.setupWithNavController(navController)
-        bottomNavigationView.visibility = GONE
 
         bottomNavigationView?.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -38,5 +37,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        bottomNavigationView.visibility = GONE
     }
 }
