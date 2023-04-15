@@ -39,7 +39,7 @@ class FeedFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dao = UserPreferencesDatabase.getInstance(application).userPreferencesDAO
         appContainer = (requireContext().applicationContext as News4You).appContainer
-        viewModelFactory = FeedViewModel.provideFactory(appContainer.newsAPI, dao)
+        viewModelFactory = FeedViewModel.provideFactory(appContainer.newsAPI, dao, this)
         viewModel = ViewModelProvider(this, viewModelFactory)[FeedViewModel::class.java]
 
         binding.feedViewModel = viewModel

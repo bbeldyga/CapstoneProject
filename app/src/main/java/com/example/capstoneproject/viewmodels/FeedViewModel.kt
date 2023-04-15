@@ -1,7 +1,9 @@
 package com.example.capstoneproject.viewmodels
 
+import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.savedstate.SavedStateRegistryOwner
 import com.example.capstoneproject.interfaces.NewsAPI
 import com.example.capstoneproject.dataobjects.NewsResponse
 import com.example.capstoneproject.dataobjects.UserPreferences
@@ -14,7 +16,8 @@ import kotlin.random.Random
  * Feed Screen Data and Logic
  */
 class FeedViewModel(private val newsAPI: NewsAPI,
-                    private val userPreferencesDAO: UserPreferencesDAO)
+                    private val userPreferencesDAO: UserPreferencesDAO,
+                    private val savedStateHandle: SavedStateHandle)
     : ViewModel() {
 
     private val email = FirebaseAuth.getInstance().currentUser?.email
@@ -200,12 +203,19 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     companion object {
         fun provideFactory(
             newsAPI: NewsAPI,
-            userPreferencesDAO: UserPreferencesDAO
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return FeedViewModel(newsAPI, userPreferencesDAO) as T
-            }
+            userPreferencesDAO: UserPreferencesDAO,
+            owner: SavedStateRegistryOwner,
+            defaultArgs: Bundle? = null
+        ): AbstractSavedStateViewModelFactory =
+            object : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(
+                    key: String,
+                    modelClass: Class<T>,
+                    handle: SavedStateHandle
+                ): T {
+                    return FeedViewModel(newsAPI, userPreferencesDAO, handle) as T
+                }
         }
     }
 }
