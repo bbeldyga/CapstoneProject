@@ -39,9 +39,10 @@ class FeedFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val dao = UserPreferencesDatabase.getInstance(application).userPreferencesDAO
-        val preferences = application.getSharedPreferences("User", Context.MODE_PRIVATE)
+        val sharedPreferences = requireNotNull(this.activity).getPreferences(Context.MODE_PRIVATE)
+
         appContainer = (requireContext().applicationContext as News4You).appContainer
-        viewModelFactory = FeedViewModel.provideFactory(appContainer.newsAPI, dao, preferences)
+        viewModelFactory = FeedViewModel.provideFactory(appContainer.newsAPI, dao, sharedPreferences)
         viewModel = ViewModelProvider(this, viewModelFactory)[FeedViewModel::class.java]
 
         binding.feedViewModel = viewModel
