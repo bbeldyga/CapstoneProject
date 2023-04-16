@@ -1,5 +1,6 @@
 package com.example.capstoneproject.viewmodels
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.*
@@ -17,7 +18,8 @@ import kotlin.random.Random
  */
 class FeedViewModel(private val newsAPI: NewsAPI,
                     private val userPreferencesDAO: UserPreferencesDAO,
-                    private val savedStateHandle: SavedStateHandle)
+                    private val sharedPreferences: SharedPreferences
+                    )
     : ViewModel() {
 
     private val email = FirebaseAuth.getInstance().currentUser?.email
@@ -25,7 +27,7 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     private val apiKeys = listOf("5e9f7c5f70c441378877ab85830ecdc2", "5006c6365e864383a603490ef274ebbd")
     private val articleIndexCount = mutableListOf(0, 0, 0, 0, 0, 0, 0)
     private val feedSource = MutableList(7) {NewsResponse()}
-
+    private val categoryNames = listOf("General", "Technology", "Entertainment", "Sports", "Business", "Health", "Science")
     private val preferences = email?.let { userPreferencesDAO.get(it).map { preferences ->
                                                     savePreferences(preferences) } }
 
@@ -62,6 +64,7 @@ class FeedViewModel(private val newsAPI: NewsAPI,
             }
 
             withContext(Dispatchers.Main) {
+                restoreIndexes()
                 updateUI(0f)
             }
         }
@@ -86,7 +89,6 @@ class FeedViewModel(private val newsAPI: NewsAPI,
             updatePreferences(weight)
             exploreCheck = true
             _articleCount.value = _articleCount.value?.plus(1)
-            return
         } else if (articleIndexCount[index] == 20){
             updateUI(weight)
         } else {
@@ -96,6 +98,8 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     }
 
     fun updatePreferences(value: Float) {
+            saveIndexes()
+
             userPreferences[categoryValue] += value
             if (userPreferences[categoryValue] > 10f)  {
                 userPreferences[categoryValue] = 10f
@@ -109,6 +113,20 @@ class FeedViewModel(private val newsAPI: NewsAPI,
             if (newPreferences != null) {
                 userPreferencesDAO.update(newPreferences)
             }
+        }
+    }
+
+    private fun saveIndexes() {
+        val indexToSave = articleIndexCount[categoryValue]
+
+        sharedPreferences.edit().putInt(categoryNames[categoryValue],
+            indexToSave).apply()
+    }
+
+    private fun restoreIndexes() {
+        for (i in 0..6) {
+            val indexToRestore = sharedPreferences.getInt(categoryNames[i], 0)
+            articleIndexCount[i] = indexToRestore
         }
     }
 
@@ -204,18 +222,12 @@ class FeedViewModel(private val newsAPI: NewsAPI,
         fun provideFactory(
             newsAPI: NewsAPI,
             userPreferencesDAO: UserPreferencesDAO,
-            owner: SavedStateRegistryOwner,
-            defaultArgs: Bundle? = null
-        ): AbstractSavedStateViewModelFactory =
-            object : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(
-                    key: String,
-                    modelClass: Class<T>,
-                    handle: SavedStateHandle
-                ): T {
-                    return FeedViewModel(newsAPI, userPreferencesDAO, handle) as T
-                }
+            sharedPreferences: SharedPreferences
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return FeedViewModel(newsAPI, userPreferencesDAO, sharedPreferences) as T
+            }
         }
     }
 }

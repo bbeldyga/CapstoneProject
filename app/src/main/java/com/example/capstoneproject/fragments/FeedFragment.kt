@@ -2,6 +2,7 @@ package com.example.capstoneproject.fragments
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.content.Intent
 import android.net.Uri
@@ -38,14 +39,15 @@ class FeedFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val dao = UserPreferencesDatabase.getInstance(application).userPreferencesDAO
+        val preferences = application.getSharedPreferences("User", Context.MODE_PRIVATE)
         appContainer = (requireContext().applicationContext as News4You).appContainer
-        viewModelFactory = FeedViewModel.provideFactory(appContainer.newsAPI, dao, this)
+        viewModelFactory = FeedViewModel.provideFactory(appContainer.newsAPI, dao, preferences)
         viewModel = ViewModelProvider(this, viewModelFactory)[FeedViewModel::class.java]
 
         binding.feedViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.imageValue.observe(viewLifecycleOwner, Observer<String >{ imageValue ->
+        viewModel.imageValue.observe(viewLifecycleOwner, Observer<String> { imageValue ->
             if (imageValue != "") {
                 binding.newsImage.load(imageValue)
             }
