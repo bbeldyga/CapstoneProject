@@ -48,7 +48,7 @@ class FeedFragment : Fragment() {
         binding.feedViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.imageValue.observe(viewLifecycleOwner, Observer<String> { imageValue ->
+        viewModel.imageValue.observe(viewLifecycleOwner, Observer<String?> { imageValue ->
             if (imageValue != "") {
                 binding.newsImage.load(imageValue)
             }
@@ -71,13 +71,10 @@ class FeedFragment : Fragment() {
             }
         })
 
-        viewModel.urlValue.observe(viewLifecycleOwner, Observer<String> { urlValue ->
+        viewModel.urlValue.observe(viewLifecycleOwner, Observer<String?> { urlValue ->
             if (urlValue != "") {
                 binding.newsImage.setOnClickListener {
-                    if (viewModel.getExploreCheck()) {
-                        viewModel.updatePreferences(0.3f)
-                        viewModel.setExploreCheck(false)
-                    }
+                    viewModel.updatePreferences(0.3f)
 
                     val webpage = Uri.parse(urlValue)
                     val intent = Intent(Intent.ACTION_VIEW, webpage)
@@ -86,7 +83,7 @@ class FeedFragment : Fragment() {
             }
         })
 
-        viewModel.articleCount.observe(viewLifecycleOwner, Observer<Int> { articleCount ->
+        viewModel.articleCount.observe(viewLifecycleOwner, Observer<Int?> { articleCount ->
           if (articleCount == 40) {
               val snack = Snackbar.make(view, "That's All The News For Today!", Snackbar.LENGTH_LONG)
               snack.show()

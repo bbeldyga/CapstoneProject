@@ -5,13 +5,13 @@ import java.io.Serializable
 data class NewsResponse (
     val status: String?,
     val totalResults: String?,
-    val articles: List<Article>
+    var articles: List<Article?>
 ) : Serializable {
     constructor() : this("", "", listOf(Article()))
 }
 
 data class Article (
-    val source: Source,
+    val source: Source?,
     val author: String?,
     val title: String?,
     val description: String?,

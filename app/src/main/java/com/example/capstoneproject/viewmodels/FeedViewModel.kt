@@ -1,10 +1,9 @@
 package com.example.capstoneproject.viewmodels
 
 import android.content.SharedPreferences
-import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.savedstate.SavedStateRegistryOwner
+import com.example.capstoneproject.dataobjects.Article
 import com.example.capstoneproject.interfaces.NewsAPI
 import com.example.capstoneproject.dataobjects.NewsResponse
 import com.example.capstoneproject.dataobjects.UserPreferences
@@ -24,9 +23,11 @@ class FeedViewModel(private val newsAPI: NewsAPI,
 
     private val email = FirebaseAuth.getInstance().currentUser?.email
     private val userPreferences = mutableListOf(3f, 3f, 3f, 3f, 3f, 3f, 3f)
-    private val apiKeys = listOf("5e9f7c5f70c441378877ab85830ecdc2", "5006c6365e864383a603490ef274ebbd")
+    private val apiKeys = listOf("5e9f7c5f70c441378877ab85830ecdc2", "5006c6365e864383a603490ef274ebbd",
+        "6826b8a5e9354246b702550b97f7af23")
     private val articleIndexCount = mutableListOf(0, 0, 0, 0, 0, 0, 0)
     private val feedSource = MutableList(7) {NewsResponse()}
+    private val feedFiltered = mutableListOf(listOf<Article?>())
     private val categoryNames = listOf("General", "Technology", "Entertainment", "Sports", "Business", "Health", "Science")
     private val preferences = email?.let { userPreferencesDAO.get(it).map { preferences ->
                                                     savePreferences(preferences) } }
@@ -34,22 +35,22 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     private val errorHandler = CoroutineExceptionHandler {_, exception ->
         exception.printStackTrace() }
     private var categoryValue = -1
-    private var exploreCheck = true
+    private var countKey = "Count"
 
-    private var _descriptionValue = MutableLiveData<String>("Loading your feed...")
-    val descriptionValue: LiveData<String> get() = _descriptionValue
+    private var _descriptionValue = MutableLiveData<String?>("Loading your feed...")
+    val descriptionValue: LiveData<String?> get() = _descriptionValue
 
-    private var _imageValue = MutableLiveData<String>()
-    val imageValue: LiveData<String> get() = _imageValue
+    private var _imageValue = MutableLiveData<String?>()
+    val imageValue: LiveData<String?> get() = _imageValue
 
-    private var _titleValue = MutableLiveData<String>()
-    val titleValue: LiveData<String> get() = _titleValue
+    private var _titleValue = MutableLiveData<String?>()
+    val titleValue: LiveData<String?> get() = _titleValue
 
-    private var _urlValue = MutableLiveData<String>()
-    val urlValue: LiveData<String> get() = _urlValue
+    private var _urlValue = MutableLiveData<String?>()
+    val urlValue: LiveData<String?> get() = _urlValue
 
     private var _articleCount = MutableLiveData(0)
-    val articleCount: LiveData<Int> get() = _articleCount
+    val articleCount: LiveData<Int?> get() = _articleCount
 
     private var _home = MutableLiveData(false)
     val home: LiveData<Boolean> get() = _home
@@ -60,7 +61,11 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     init {
         viewModelScope.launch(Dispatchers.IO + errorHandler) {
             withTimeout(5000) {
-                getNews(apiKeys[0])
+                getNews()
+            }
+
+            withContext(Dispatchers.Default) {
+                filterNews()
             }
 
             withContext(Dispatchers.Main) {
@@ -75,22 +80,15 @@ class FeedViewModel(private val newsAPI: NewsAPI,
 
         if (articleCount.value == 40) {
             return
-        } else if (feedSource[index].articles[articleIndexCount[index]].url != null &&
-            feedSource[index].articles[articleIndexCount[index]].title != null &&
-            feedSource[index].articles[articleIndexCount[index]].urlToImage != null &&
-            feedSource[index].articles[articleIndexCount[index]].description != null &&
-            articleIndexCount[index] < 20) {
+        } else if (articleIndexCount[index] < feedFiltered[index].size) {
 
-            _urlValue.value = feedSource[index].articles[articleIndexCount[index]].url!!
-            _titleValue.value = feedSource[index].articles[articleIndexCount[index]].title!!
-            _imageValue.value = feedSource[index].articles[articleIndexCount[index]].urlToImage!!
-            _descriptionValue.value = feedSource[index].articles[articleIndexCount[index]++].description!!
+            _urlValue.value = feedFiltered[index][articleIndexCount[index]]?.url
+            _titleValue.value = feedFiltered[index][articleIndexCount[index]]?.title
+            _imageValue.value = feedFiltered[index][articleIndexCount[index]]?.urlToImage
+            _descriptionValue.value = feedFiltered[index][articleIndexCount[index]++]?.description
             categoryValue = index
             updatePreferences(weight)
-            exploreCheck = true
             _articleCount.value = _articleCount.value?.plus(1)
-        } else if (articleIndexCount[index] == 20){
-            updateUI(weight)
         } else {
             articleIndexCount[index]++
             updateUI(weight)
@@ -116,9 +114,20 @@ class FeedViewModel(private val newsAPI: NewsAPI,
         }
     }
 
+    private fun filterNews() {
+        for (i in 0 .. 6) {
+            feedFiltered.add(i, feedSource[i].articles.filter { article ->
+                    !article?.title.isNullOrBlank() && !article?.url.isNullOrBlank() &&
+                            !article?.urlToImage.isNullOrBlank() && !article?.description.isNullOrBlank()
+            })
+        }
+    }
+
     private fun saveIndexes() {
         val indexToSave = articleIndexCount[categoryValue]
+        val count = _articleCount.value ?: 0
 
+        sharedPreferences.edit().putInt(countKey, count).apply()
         sharedPreferences.edit().putInt(categoryNames[categoryValue],
             indexToSave).apply()
     }
@@ -128,24 +137,26 @@ class FeedViewModel(private val newsAPI: NewsAPI,
             val indexToRestore = sharedPreferences.getInt(categoryNames[i], 0)
             articleIndexCount[i] = indexToRestore
         }
+
+        _articleCount.value = sharedPreferences.getInt(countKey, 0)
     }
 
-    private suspend fun getNews(apiKey: String) {
+    private suspend fun getNews() {
         viewModelScope.launch(Dispatchers.IO+ errorHandler) {
             val generalNews =
-                async { connectToAPI("us", "general", apiKey) }
+                async { connectToAPI("us", "general", apiKeys.random()) }
             val technologyNews =
-                async { connectToAPI("us", "technology", apiKey) }
+                async { connectToAPI("us", "technology", apiKeys.random()) }
             val entertainmentNews =
-                async { connectToAPI("us", "entertainment", apiKey) }
+                async { connectToAPI("us", "entertainment", apiKeys.random()) }
             val sportsNews =
-                async { connectToAPI("us", "sports", apiKey) }
+                async { connectToAPI("us", "sports", apiKeys.random()) }
             val businessNews =
-                async { connectToAPI("us", "business", apiKey) }
+                async { connectToAPI("us", "business", apiKeys.random()) }
             val healthNews =
-                async { connectToAPI("us", "health", apiKey) }
+                async { connectToAPI("us", "health", apiKeys.random()) }
             val scienceNews =
-                async { connectToAPI("us", "science", apiKey) }
+                async { connectToAPI("us", "science", apiKeys.random()) }
 
             feedSource[0] = generalNews.await()
             feedSource[1] = technologyNews.await()
@@ -214,9 +225,6 @@ class FeedViewModel(private val newsAPI: NewsAPI,
     fun shareButtonClicked() {
         _share.value = true
     }
-
-    fun getExploreCheck() = exploreCheck
-    fun setExploreCheck(newValue: Boolean) { exploreCheck = newValue }
 
     companion object {
         fun provideFactory(
